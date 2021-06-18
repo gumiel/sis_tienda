@@ -42,6 +42,57 @@ class MODMarca extends MODbase
         //Devuelve la respuesta
         return $this->respuesta;
     }
+
+    function insertarMarca() {
+        $this->procedimiento='tie.ft_marca_ime';
+        $this->transaccion='TIE_MARCA_INS';
+        $this->tipo_procedimiento='IME';
+
+        $this->setParametro('id_marca','id_marca','int4');
+        $this->setParametro('nombre','nombre','varchar');
+
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+
+        //Devuelve la respuesta
+        return $this->respuesta;
+
+    }
+    function modificarMarca() {
+        $this->procedimiento='tie.ft_marca_ime';
+        $this->transaccion='TIE_MARCA_MOD';
+        $this->tipo_procedimiento='IME';
+
+        $this->setParametro('id_marca','id_marca','int4');
+        $this->setParametro('nombre','nombre','varchar');
+
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+
+        //Devuelve la respuesta
+        return $this->respuesta;
+
+    }
+    function eliminarMarca() {
+        $this->procedimiento='tie.ft_marca_ime';
+        $this->transaccion='TIE_MARCA_ELI';
+        $this->tipo_procedimiento='IME';
+
+        $this->setParametro('id_marca','id_marca','int4');
+
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+
+        //Devuelve la respuesta
+        return $this->respuesta;
+
+    }
+
+
+
     
 }
 ?>

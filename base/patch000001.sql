@@ -2,7 +2,7 @@
 
 
 CREATE TABLE tie.tmarca (
-                       id_marca BIGSERIAL,
+                       id_marca serial NOT NULL,
                        nombre VARCHAR(50) NOT NULL,
                        CONSTRAINT pk_tmarca__id_marca PRIMARY KEY(id_marca)
 ) INHERITS (pxp.tbase);

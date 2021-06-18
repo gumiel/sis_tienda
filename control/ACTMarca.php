@@ -17,5 +17,20 @@ class ACTMarca extends ACTbase
         $this->res->imprimirRespuesta($this->res->generarJson());
 
     }
+
+    function insertarMarca() {
+        $this->objFunc=$this->create('MODMarca');
+        if($this->objParam->insertar('id_marca')){
+            $this->res=$this->objFunc->insertarMarca($this->objParam);
+        } else{
+            $this->res=$this->objFunc->modificarMarca($this->objParam);
+        }
+        $this->res->imprimirRespuesta($this->res->generarJson());
+    }
+    function eliminarMarca() {
+        $this->objFunc=$this->create('MODMarca');
+        $this->res=$this->objFunc->eliminarMarca($this->objParam);
+        $this->res->imprimirRespuesta($this->res->generarJson());
+    }
 }
 ?>
