@@ -41,6 +41,50 @@ header("content-type: text/javascript; charset=UTF-8");
                 },
 
                 {
+                    config: {
+                        name: 'id_marca',
+                        fieldLabel: 'Marca',
+                        allowBlank: false,
+                        emptyText: 'Elija una opcion',
+                        store: new Ext.data.JsonStore({
+                            url: '../../sis_tienda/control/Marca/listarMarca',
+                            id: 'id_marca',
+                            root: 'datos',
+                            sortInfo: {
+                                field: 'id_marca',
+                                direction: 'ASC',
+                            },
+                            totalProperty: 'total',
+                            fields: ['id_marca', 'nombre'],
+                            remoteSort: true,
+                            baseParams: {par_filtro: 'tm.nombre'},
+                        }),
+                        valueField: 'id_marca',
+                        displayField: 'nombre',
+                        gdisplayField: 'desc_marca',
+                        hiddenName: 'id_marca',
+                        forceSelection: true,
+                        typeHead: false,
+                        triggerAction: 'all',
+                        lazyRender: true,
+                        mode: 'remote',
+                        pageSize: 15,
+                        queryDelay: 1000,
+                        anchor: '100%',
+                        gwidth: 150,
+                        minChars: 2,
+                        renderer: function (value, p, record) {
+                            return String.format('{0}', record.data['desc_marca'])
+                        },
+                    },
+                    type: 'ComboBox',
+                    id_grupo: 0,
+                    filters: {pfiltro: 'tm.nombre', type:'string'},
+                    grid: true,
+                    form: true,
+
+                },
+                {
                     config:{
                         name: 'nombre',
                         fieldLabel: 'Nombre',
@@ -182,6 +226,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 {name:'fecha_mod', type: 'date',dateFormat:'Y-m-d H:i:s.u'},
                 {name:'usr_reg', type: 'string'},
                 {name:'usr_mod', type: 'string'},
+                {name:'desc_marca', type: 'string'},
             ],
             sortInfo:{
                 field: 'id_producto',

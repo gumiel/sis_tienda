@@ -47,10 +47,13 @@ BEGIN
 						tp.id_usuario_mod,
 						tp.fecha_mod,
 						usu1.cuenta as usr_reg,
-						usu2.cuenta as usr_mod
+						usu2.cuenta as usr_mod,
+						tp.id_marca,
+						tm.nombre as desc_marca
                          FROM tie.tproducto tp
                          inner join segu.tusuario usu1 on usu1.id_usuario = tp.id_usuario_reg
                          left join segu.tusuario usu2 on usu2.id_usuario = tp.id_usuario_mod
+                         inner join tie.tmarca tm on tm.id_marca = tp.id_marca
                           where  ';
 
             --Definicion de la respuesta
@@ -75,6 +78,7 @@ BEGIN
                         FROM tie.tproducto tp
                          inner join segu.tusuario usu1 on usu1.id_usuario = tp.id_usuario_reg
                          left join segu.tusuario usu2 on usu2.id_usuario = tp.id_usuario_mod
+                         inner join tie.tmarca tm on tm.id_marca = tp.id_marca
                           where  ';
 
             --Definicion de la respuesta

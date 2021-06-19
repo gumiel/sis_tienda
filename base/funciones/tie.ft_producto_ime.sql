@@ -33,7 +33,8 @@ BEGIN
                 usuario_ai,
                 obs_dba,
                 nombre,
-                precio
+                precio,
+                id_marca
             ) VALUES (
                          p_id_usuario,
                          null,
@@ -44,7 +45,9 @@ BEGIN
                          null,
                          null,
                          v_parametros.nombre,
-                         v_parametros.precio) RETURNING id_producto into v_id_producto;
+                         v_parametros.precio,
+                      v_parametros.id_marca
+                      ) RETURNING id_producto into v_id_producto;
 
 
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','insercion exitoso'||v_id_producto||')');
@@ -90,7 +93,8 @@ BEGIN
             UPDATE tie.tproducto SET nombre = v_parametros.nombre,
                                      precio = v_parametros.precio,
                                   fecha_mod = now(),
-                                  id_usuario_mod = p_id_usuario
+                                  id_usuario_mod = p_id_usuario,
+                                     id_marca = v_parametros.id_marca
             where id_producto = v_parametros.id_producto;
 
 

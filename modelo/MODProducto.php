@@ -35,6 +35,8 @@ class MODProducto extends MODbase
         $this->captura('fecha_mod','timestamp');
         $this->captura('usr_reg','varchar');
         $this->captura('usr_mod','varchar');
+        $this->captura('id_marca','int4');
+        $this->captura('desc_marca','varchar');
 
 
         //Ejecuta la instruccion
@@ -53,6 +55,7 @@ class MODProducto extends MODbase
         $this->setParametro('id_producto','id_producto','int4');
         $this->setParametro('nombre','nombre','varchar');
         $this->setParametro('precio','precio','numeric');
+        $this->setParametro('id_marca','id_marca','numeric');
 
         //Ejecuta la instruccion
         $this->armarConsulta();
@@ -70,6 +73,7 @@ class MODProducto extends MODbase
         $this->setParametro('id_producto','id_producto','int4');
         $this->setParametro('nombre','nombre','varchar');
         $this->setParametro('precio','precio','numeric');
+        $this->setParametro('id_marca','id_marca','numeric');
 
         //Ejecuta la instruccion
         $this->armarConsulta();

@@ -54,6 +54,7 @@ BEGIN
                          FROM tie.tmarca tm
                          inner join segu.tusuario usu1 on usu1.id_usuario = tm.id_usuario_reg
                          left join segu.tusuario usu2 on usu2.id_usuario = tm.id_usuario_mod
+                         
                           where  ';
 
 --Definicion de la respuesta
