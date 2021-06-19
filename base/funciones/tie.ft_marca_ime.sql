@@ -77,13 +77,13 @@ BEGIN
         end;
 
     /*********************************
-     #TRANSACCION:  'TIE_MARCA_ELI'
+     #TRANSACCION:  'TIE_MARCA_MOD'
      #DESCRIPCION:    ELIMINAR marca
      #AUTOR:        favio figueroa
      #FECHA:        17-04-2020 01:52:57
     ***********************************/
 
-    elsif(p_transaccion='TIE_MARCA_ELI')then
+    elsif(p_transaccion='TIE_MARCA_MOD')then
 
         begin
 
