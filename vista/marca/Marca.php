@@ -53,7 +53,8 @@ header("content-type: text/javascript; charset=UTF-8");
                     filters:{pfiltro:'tm.nombre',type:'string'},
                     id_grupo:1,
                     grid:true,
-                    form:true
+                    form:true,
+                    bottom_filter: true,
                 },
                 {
                     config:{
@@ -174,6 +175,14 @@ header("content-type: text/javascript; charset=UTF-8");
             },
             bdel:true,
             bsave:true,
+            tabsouth: [
+                {
+                    url: '../../../sis_tienda/vista/producto/Producto.php',
+                    title: 'Hijos de Marca(Producto)',
+                    height: '50%',
+                    cls: 'Producto',
+                }
+            ],
         }
     )
 

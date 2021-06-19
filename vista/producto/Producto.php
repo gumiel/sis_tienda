@@ -10,7 +10,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 //llama al constructor de la clase padre
                 Phx.vista.Producto.superclass.constructor.call(this,config);
                 this.init();
-                this.load({params:{start:0, limit:this.tam_pag}})
+                //this.load({params:{start:0, limit:this.tam_pag}})
             },
 
             Atributos:[
@@ -20,6 +20,16 @@ header("content-type: text/javascript; charset=UTF-8");
                         labelSeparator:'',
                         inputType:'hidden',
                         name: 'id_producto'
+                    },
+                    type:'Field',
+                    form:true
+                },
+                {
+                    //configuracion del componente
+                    config:{
+                        labelSeparator:'',
+                        inputType:'hidden',
+                        name: 'id_marca'
                     },
                     type:'Field',
                     form:true
@@ -40,7 +50,7 @@ header("content-type: text/javascript; charset=UTF-8");
                     form:false
                 },
 
-                {
+                /*{
                     config: {
                         name: 'id_marca',
                         fieldLabel: 'Marca',
@@ -83,7 +93,7 @@ header("content-type: text/javascript; charset=UTF-8");
                     grid: true,
                     form: true,
 
-                },
+                },*/
                 {
                     config:{
                         name: 'nombre',
@@ -94,10 +104,11 @@ header("content-type: text/javascript; charset=UTF-8");
                         maxLength:255
                     },
                     type:'TextField',
-                    filters:{pfiltro:'nombre',type:'string'},
+                    filters:{pfiltro:'tp.nombre',type:'string'},
                     id_grupo:1,
                     grid:true,
-                    form:true
+                    form:true,
+                    bottom_filter: true,
                 },
                 {
                     config:{
@@ -109,10 +120,11 @@ header("content-type: text/javascript; charset=UTF-8");
                         maxLength:255
                     },
                     type:'NumberField',
-                    filters:{pfiltro:'price',type:'string'},
+                    filters:{pfiltro:'tp.precio',type:'string'},
                     id_grupo:1,
                     grid:true,
-                    form:true
+                    form:true,
+                    bottom_filter: true,
                 },
                 {
                     config:{
@@ -234,6 +246,15 @@ header("content-type: text/javascript; charset=UTF-8");
             },
             bdel:true,
             bsave:true,
+            onReloadPage: function(m) {
+                this.maestro = m;
+                this.store.baseParams = { id_marca: this.maestro.id_marca };
+                this.load({params: {start: 0, limit: 50 }});
+            },
+            loadValoresIniciales: function () {
+                this.Cmp.id_marca.setValue(this.maestro.id_marca);
+                Phx.vista.Producto.superclass.loadValoresIniciales.call(this);
+            }
         }
     )
 
