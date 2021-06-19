@@ -14,3 +14,10 @@ CREATE TABLE tie.tproducto (
     CONSTRAINT pk_tproducto__id_producto PRIMARY KEY(id_producto)
 ) INHERITS (pxp.tbase);
 /***********************************F-SCP-ICQ-TIE-2-17/06/2021*****************************************/
+
+
+/***********************************I-SCP-FFP-TIE-1-19/06/2021****************************************/
+alter table tie.tproducto alter column precio type numeric(10,2) using precio::numeric(10,2);
+
+/***********************************F-SCP-FFP-TIE-1-19/06/2021*****************************************/
+
