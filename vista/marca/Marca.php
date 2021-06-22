@@ -177,10 +177,10 @@ header("content-type: text/javascript; charset=UTF-8");
             bsave:true,
             tabsouth: [
                 {
-                    url: '../../../sis_tienda/vista/producto/Producto.php',
+                    url: '../../../sis_tienda/vista/producto/ProductoHijo2.php',
                     title: 'Hijos de Marca(Producto)',
                     height: '50%',
-                    cls: 'Producto',
+                    cls: 'ProductoHijo2',
                 }
             ],
         }

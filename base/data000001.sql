@@ -13,3 +13,10 @@ select pxp.f_insert_tgui ('Marca', 'Marca', 'MAR', 'si', 1, 'sis_tienda/vista/ma
 select pxp.f_insert_tgui ('Producto', 'Producto', 'PROD', 'si', 2, 'sis_tienda/vista/producto/Producto.php', 2, '', 'Producto', 'TIE');
 /*******************************************F-DAT-ICQ-TIE-2-18/06/2021***********************************************/
 
+
+/*******************************************I-DAT-ICQ-FFP-1-22/06/2021***********************************************/
+
+select pxp.f_insert_tgui ('Producto', 'Producto', 'PROD', 'si', 2, 'sis_tienda/vista/producto/ProductoHijo1.php', 2, '', 'ProductoHijo1', 'TIE');
+
+/*******************************************F-DAT-ICQ-FFP-1-22/06/2021***********************************************/
+
