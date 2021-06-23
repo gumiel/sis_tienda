@@ -55,6 +55,20 @@ header("content-type: text/javascript; charset=UTF-8");
             };
             Phx.vista.ProductoHijo1.superclass.constructor.call(this,config);
             this.load({params:{start:0, limit:this.tam_pag}});
+            this.iniciarEventos();
+        },
+        iniciarEventos: function () {
+            this.Cmp.id_marca.on('select', function (combo, record) {
+                console.log('combo',combo)
+                console.log('record',record)
+                this.Cmp.nombre.setValue(`${record.data.nombre}--`);
+            }, this);
+
+            console.log('this.Cmp.nombre',this.Cmp.nombre)
+            this.Cmp.nombre.on('blur', function () {
+
+                console.log('asdasdasdasdas')
+            }, this);
         }
     }
 </script>

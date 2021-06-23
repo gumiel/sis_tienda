@@ -11,6 +11,22 @@ header("content-type: text/javascript; charset=UTF-8");
                 Phx.vista.ProductoBase.superclass.constructor.call(this,config);
                 this.init();
                 //this.load({params:{start:0, limit:this.tam_pag}})
+
+                this.addButton('btn_ejemplo', {
+                    text: 'Btn Ejemplo',
+                    iconCls: 'badelante',
+                    disabled: true,
+                    handler: this.handleButton,
+                    tooltip: '<b>este es un mensaje</b>'
+                })
+                this.addButton('btn_ejemplo2', {
+                    text: '<i class="fa fa-file-text-o fa-2x"></i><br>OTRO BOTON',
+                    disabled: false,
+                    handler: () => {
+                        alert('asdasdasdasd')
+                    },
+                    tooltip: '<b>este es un mensaje</b>'
+                })
             },
 
             Atributos:[
@@ -201,6 +217,21 @@ header("content-type: text/javascript; charset=UTF-8");
             },
             bdel:true,
             bsave:true,
+            handleButton: function () {
+                    console.log('this',this);
+                    var rec = this.sm.getSelected();
+                    console.log('rec',rec)
+            },
+            preparaMenu: function (n) {
+                    var data = this.getSelectedData();
+                    console.log('data',data)
+                if(data.desc_marca === 'SAMSUNG') {
+                    this.getBoton('btn_ejemplo').enable();
+
+                } else {
+                    this.getBoton('btn_ejemplo').disable();
+                }
+            },
         }
     )
 

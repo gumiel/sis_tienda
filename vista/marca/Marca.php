@@ -11,6 +11,14 @@ header("content-type: text/javascript; charset=UTF-8");
                 Phx.vista.Marca.superclass.constructor.call(this,config);
                 this.init();
                 this.load({params:{start:0, limit:this.tam_pag}})
+
+                this.addButton('open_producto', {
+                    text: 'Productos',
+                    iconCls: 'badelante',
+                    disabled: true,
+                    handler: this.productos,
+                    tooltip: '<b>este es un mensaje</b>'
+                })
             },
 
             Atributos:[
@@ -183,6 +191,25 @@ header("content-type: text/javascript; charset=UTF-8");
                     cls: 'ProductoHijo2',
                 }
             ],
+
+            preparaMenu: function () {
+                //var data = this.getSelectedData();
+                this.getBoton('open_producto').enable();
+            },
+            productos: function () {
+               var rec = this.sm.getSelected();
+                Phx.CP.loadWindows(
+                    '../../../sis_tienda/vista/producto/ProductoHijo3.php',
+                    'Produto',
+                    {
+                        width: '90%',
+                        height: 500
+                    },
+                    rec.data,
+                    this.idContenedor,
+                    'ProductoHijo3'
+                );
+            },
         }
     )
 
