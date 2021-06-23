@@ -29,3 +29,11 @@ alter table tie.tproducto
 
 /***********************************F-SCP-FFP-TIE-2-19/06/2021*****************************************/
 
+/***********************************I-SCP-DZ-TIE-3-23/06/2021****************************************/
+CREATE TABLE tie.tCategoria (
+                                id_categoria serial NOT NULL,
+                                nombre VARCHAR(50) NOT NULL,
+                                color VARCHAR(50) NOT NULL,
+                                CONSTRAINT pk_tcategoria__id_categoria PRIMARY KEY(id_categoria)
+) INHERITS (pxp.tbase);
+/***********************************F-SCP-DZ-TIE-3-23/06/2021*****************************************/
