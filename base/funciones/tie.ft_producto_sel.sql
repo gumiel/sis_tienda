@@ -49,7 +49,8 @@ BEGIN
 						usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod,
 						tp.id_marca,
-						tm.nombre as desc_marca
+						tm.nombre as desc_marca,
+						(select string_agg(tpc.id_categoria::text, '','')::varchar as id_categoria  from tie.tproducto_categoria tpc where tp.id_producto = tpc.id_producto)
                          FROM tie.tproducto tp
                          inner join segu.tusuario usu1 on usu1.id_usuario = tp.id_usuario_reg
                          left join segu.tusuario usu2 on usu2.id_usuario = tp.id_usuario_mod

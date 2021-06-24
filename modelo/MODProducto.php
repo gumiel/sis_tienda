@@ -37,6 +37,7 @@ class MODProducto extends MODbase
         $this->captura('usr_mod','varchar');
         $this->captura('id_marca','int4');
         $this->captura('desc_marca','varchar');
+        $this->captura('id_categoria','varchar');
 
 
         //Ejecuta la instruccion
@@ -56,6 +57,7 @@ class MODProducto extends MODbase
         $this->setParametro('nombre','nombre','varchar');
         $this->setParametro('precio','precio','numeric');
         $this->setParametro('id_marca','id_marca','numeric');
+        $this->setParametro('id_categoria','id_categoria','varchar');
 
         //Ejecuta la instruccion
         $this->armarConsulta();

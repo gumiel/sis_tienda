@@ -9,6 +9,7 @@ v_consulta            varchar;
     v_nombre_funcion       text;
     v_resp                varchar;
     v_id_categoria              integer;
+    v_categoria              record;
 BEGIN
     v_nombre_funcion = 'tie.ft_categoria_ime';
     v_parametros = pxp.f_get_record(p_tabla);
@@ -46,6 +47,7 @@ INSERT into tie.tcategoria(
              v_parametros.nombre,
              v_parametros.color
              ) RETURNING id_categoria into v_id_categoria;
+
 
 
 v_resp = pxp.f_agrega_clave(v_resp,'mensaje','inserccion exitoso'||v_id_categoria||')');

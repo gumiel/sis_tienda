@@ -37,3 +37,13 @@ CREATE TABLE tie.tCategoria (
                                 CONSTRAINT pk_tcategoria__id_categoria PRIMARY KEY(id_categoria)
 ) INHERITS (pxp.tbase);
 /***********************************F-SCP-DZ-TIE-3-23/06/2021*****************************************/
+
+
+/***********************************I-SCP-FFP-TIE-3-23/06/2021****************************************/
+CREATE TABLE tie.tproducto_categoria (
+                                id_producto_categoria serial NOT NULL,
+                                id_categoria integer,
+                                id_producto integer,
+                                CONSTRAINT pk_tproducto_categoria__id_producto_categoria PRIMARY KEY(id_producto_categoria)
+) INHERITS (pxp.tbase);
+/***********************************F-SCP-FFP-TIE-3-23/06/2021*****************************************/

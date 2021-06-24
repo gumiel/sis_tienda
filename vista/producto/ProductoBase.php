@@ -99,6 +99,48 @@ header("content-type: text/javascript; charset=UTF-8");
                 },
                 {
                     config:{
+                        name:'id_categoria',
+                        fieldLabel:'Categoria',
+                        allowBlank:true,
+                        emptyText:'Categorias...',
+                        store: new Ext.data.JsonStore({
+                            url: '../../sis_tienda/control/Categoria/listarCategoria',
+                            id: 'id_categoria',
+                            root: 'datos',
+                            sortInfo:{
+                                field: 'id_categoria',
+                                direction: 'ASC'
+                            },
+                            totalProperty: 'total',
+                            fields: ['id_categoria','nombre','color'],
+                            // turn on remote sorting
+                            remoteSort: true,
+                            baseParams:{par_filtro:'nombre'}
+
+                        }),
+                        valueField: 'id_categoria',
+                        displayField: 'nombre',
+                        forceSelection:true,
+                        typeAhead: true,
+                        triggerAction: 'all',
+                        lazyRender:true,
+                        mode:'remote',
+                        pageSize:10,
+                        queryDelay:1000,
+                        width:250,
+                        minChars:2,
+                        enableMultiSelect:true
+
+                        //renderer:function(value, p, record){return String.format('{0}', record.data['descripcion']);}
+
+                    },
+                    type:'AwesomeCombo',
+                    id_grupo:0,
+                    grid:false,
+                    form:true
+                },
+                {
+                    config:{
                         name: 'usr_reg',
                         fieldLabel: 'Creado por',
                         allowBlank: true,
@@ -210,6 +252,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 {name:'usr_reg', type: 'string'},
                 {name:'usr_mod', type: 'string'},
                 {name:'desc_marca', type: 'string'},
+                {name:'id_categoria', type: 'string'},
             ],
             sortInfo:{
                 field: 'id_producto',
@@ -223,6 +266,9 @@ header("content-type: text/javascript; charset=UTF-8");
                     console.log('rec',rec)
             },
             preparaMenu: function (n) {
+                var tb = Phx.vista.ProductoBase.superclass.preparaMenu.call(this);
+
+                var tb = this.tbar;
                     var data = this.getSelectedData();
                     console.log('data',data)
                 if(data.desc_marca === 'SAMSUNG') {
@@ -231,6 +277,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 } else {
                     this.getBoton('btn_ejemplo').disable();
                 }
+                return tb;
             },
         }
     )
