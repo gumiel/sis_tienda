@@ -10,24 +10,24 @@ DECLARE
 BEGIN
     v_nombre_funcion = 'tie.ft_movimiento_sel';
     v_parametros = pxp.f_get_record(p_tabla);
-    if(p_transaccion='TIE_CATEGORIA_SEL')then
+    if(p_transaccion='TIE_MOV_SEL')then
         begin
-            v_consulta:= 'select tm.id_categoria,
-						tm.estado_reg,
-						tm.nombre,
-                        tm.color,
-						tm.id_usuario_reg,
-						tm.fecha_reg,
-						tm.usuario_ai,
-						tm.id_usuario_ai,
-						tm.id_usuario_mod,
-						tm.fecha_mod,
+            v_consulta:= 'select tmo.id_movimiento,
+						tmo.id_producto,
+						tmo.tipo,
+                        tmo.cantidad_movida,
+						tmo.id_usuario_reg,
+						tmo.fecha_reg,
+						tmo.usuario_ai,
+						tmo.id_usuario_ai,
+						tmo.id_usuario_mod,
+						tmo.fecha_mod,
 						usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod
-                         FROM tie.tcategoria tm
-                         inner join segu.tusuario usu1 on usu1.id_usuario = tm.id_usuario_reg
-                         left join segu.tusuario usu2 on usu2.id_usuario = tm.id_usuario_mod
-                          where  ';
+                         FROM tie.tmovimiento tmo
+                         inner join segu.tusuario usu1 on usu1.id_usuario = tmo.id_usuario_reg
+                         left join segu.tusuario usu2 on usu2.id_usuario = tmo.id_usuario_mod
+                          where ';
 
 --Definicion de la respuesta
             v_consulta:=v_consulta||v_parametros.filtro;
@@ -39,21 +39,21 @@ BEGIN
         end;
 
         /*********************************
-         #TRANSACCION:  'TIE_MARCA_CONT'
+         #TRANSACCION:  'TIE_MOV_CONT'
          #DESCRIPCION:    Conteo de registros
          #AUTOR:        Favio Figueroa
          #FECHA:        17-04-2020 01:54:37
         ***********************************/
 
-    elsif(p_transaccion='TIE_CATEGORIA_CONT')then
+    elsif(p_transaccion='TIE_MOV_CONT')then
 
         begin
             --Sentencia de la consulta de conteo de registros
-            v_consulta:='select count(tm.id_categoria)
-                        FROM tie.tcategoria tm
-                         inner join segu.tusuario usu1 on usu1.id_usuario = tm.id_usuario_reg
-                         left join segu.tusuario usu2 on usu2.id_usuario = tm.id_usuario_mod
-                          where  ';
+            v_consulta:='select count(tmo.id_movimiento)
+                        FROM tie.tmovimiento tmo
+                         inner join segu.tusuario usu1 on usu1.id_usuario = tmo.id_usuario_reg
+                         left join segu.tusuario usu2 on usu2.id_usuario = tmo.id_usuario_mod
+                          where ';
 
             --Definicion de la respuesta
             v_consulta:=v_consulta||v_parametros.filtro;
