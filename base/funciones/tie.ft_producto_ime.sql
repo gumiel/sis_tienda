@@ -127,7 +127,37 @@ BEGIN
             where id_producto = v_parametros.id_producto;
 
             --todo eliminar producto categoria
+            delete from tie.tproducto_categoria where id_producto = v_parametros.id_producto;
             -- todo registrar producto categoria
+
+            FOR v_categoria IN (
+                SELECT unnest(string_to_array(v_parametros.id_categoria, ',')) AS id_categoria
+            )
+                LOOP
+
+                    INSERT INTO tie.tproducto_categoria(id_usuario_reg,
+                                                        id_usuario_mod,
+                                                        fecha_reg,
+                                                        fecha_mod,
+                                                        estado_reg,
+                                                        id_usuario_ai,
+                                                        usuario_ai,
+                                                        obs_dba,
+                                                        id_categoria,
+                                                        id_producto)
+                    VALUES (p_id_usuario,
+                            NULL,
+                            now(),
+                            NULL,
+                            'activo',
+                            NULL,
+                            NULL,
+                            NULL,
+                            v_categoria.id_categoria::INTEGER,
+                            v_parametros.id_producto);
+
+                END LOOP;
+
 
 
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','modificado exitoso'||v_parametros.id_producto||')');

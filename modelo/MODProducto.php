@@ -76,6 +76,7 @@ class MODProducto extends MODbase
         $this->setParametro('nombre','nombre','varchar');
         $this->setParametro('precio','precio','numeric');
         $this->setParametro('id_marca','id_marca','numeric');
+        $this->setParametro('id_categoria','id_categoria','varchar');
 
         //Ejecuta la instruccion
         $this->armarConsulta();
