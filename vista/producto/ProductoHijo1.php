@@ -69,6 +69,15 @@ header("content-type: text/javascript; charset=UTF-8");
 
                 console.log('asdasdasdasdas')
             }, this);
-        }
+        },
+        tabsouth: [
+            {
+                url: '../../../sis_tienda/vista/movimiento/Movimiento.php',
+                title: 'MOvimiento ',
+                height: '50%',
+                cls: 'Movimiento',
+            }
+        ]
+
     }
 </script>
