@@ -30,3 +30,11 @@ select pxp.f_insert_tgui ('Categoria', 'Categoria', 'CAT', 'si', 3, 'sis_tienda/
 select pxp.f_insert_tgui ('Cliente', 'Cliente', 'CLIE', 'si', 6, 'sis_tienda/vista/cliente/Cliente.php', 2, '', 'Cliente', 'TIE');
 
 /*******************************************F-DAT-EAQ-DZ-1-26/06/2021***********************************************/
+
+/*******************************************I-DAT-ATB-DZ-1-26/06/2021***********************************************/
+
+select pxp.f_insert_tgui ('<i class="fa fa-shopping-cart fa-2x"></i> TIENDA', '', 'TIE', 'si', 1, '', 1, '', '', 'TIE');
+select pxp.f_insert_tgui ('Dosificacion', 'Dosificacion', 'DOSI', 'si', 4, 'sis_tienda/vista/dosificacion/Dosificacion.php', 2, '', 'Dosificacion', 'TIE');
+
+/*******************************************F-DAT-ATB-DZ-1-26/06/2021***********************************************/
+
