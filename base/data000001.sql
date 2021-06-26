@@ -25,3 +25,8 @@ select pxp.f_insert_tgui ('Producto', 'Producto', 'PROD', 'si', 2, 'sis_tienda/v
 select pxp.f_insert_tgui ('Categoria', 'Categoria', 'CAT', 'si', 3, 'sis_tienda/vista/categoria/Categoria.php', 2, '', 'Categoria', 'TIE');
 
 /*******************************************F-DAT-ICQ-DZ-1-23/06/2021***********************************************/
+/*******************************************I-DAT-EAQ-DZ-1-26/06/2021***********************************************/
+
+select pxp.f_insert_tgui ('Cliente', 'Cliente', 'CLIE', 'si', 6, 'sis_tienda/vista/cliente/Cliente.php', 2, '', 'Cliente', 'TIE');
+
+/*******************************************F-DAT-EAQ-DZ-1-26/06/2021***********************************************/
