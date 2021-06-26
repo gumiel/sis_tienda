@@ -96,6 +96,21 @@ class MODMovimiento extends MODbase
         return $this->respuesta;
 
     }
+    function verStock() {
+        $this->procedimiento='tie.ft_movimiento_ime';
+        $this->transaccion='TIE_MOV_VS';
+        $this->tipo_procedimiento='IME';
+
+        $this->setParametro('id_producto','id_producto','int4');
+
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+
+        //Devuelve la respuesta
+        return $this->respuesta;
+
+    }
 
 
 

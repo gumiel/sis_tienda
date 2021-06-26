@@ -12,12 +12,12 @@ header("content-type: text/javascript; charset=UTF-8");
                 this.init();
                 //this.load({params:{start:0, limit:this.tam_pag}})
 
-                this.addButton('btn_ejemplo', {
-                    text: 'Btn Ejemplo',
+                this.addButton('btn_ver_stock', {
+                    text: 'Ver Stock',
                     iconCls: 'badelante',
                     disabled: true,
-                    handler: this.handleButton,
-                    tooltip: '<b>este es un mensaje</b>'
+                    handler: this.handleVerStock,
+                    tooltip: '<b>Ver Stock</b>'
                 })
                 this.addButton('btn_ejemplo2', {
                     text: '<i class="fa fa-file-text-o fa-2x"></i><br>OTRO BOTON',
@@ -253,6 +253,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 {name:'usr_mod', type: 'string'},
                 {name:'desc_marca', type: 'string'},
                 {name:'id_categoria', type: 'string'},
+                {name:'id_marca', type: 'numeric'},
             ],
             sortInfo:{
                 field: 'id_producto',
@@ -260,10 +261,26 @@ header("content-type: text/javascript; charset=UTF-8");
             },
             bdel:true,
             bsave:true,
-            handleButton: function () {
-                    console.log('this',this);
-                    var rec = this.sm.getSelected();
-                    console.log('rec',rec)
+            handleVerStock: function () {
+                var rec = this.sm.getSelected();
+                const { id_producto } = rec.data;
+                Phx.CP.loadingShow(); //ESTE MUESTRA EL LOADING EN LA VISTA
+               Ext.Ajax.request({
+                  url: '../../sis_tienda/control/Movimiento/verStock',
+                  params: { id_producto },
+                   success: this.successVerStock,
+                   failure: this.conexionFailure, // ESTE ES UN EVENTO DE LA CLASE  BASE
+                   timeout: this.timeout,
+                   scope: this
+               });
+
+            },
+            successVerStock: function (resp) {
+                Phx.CP.loadingHide();
+                console.log(resp)
+                var objRes = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
+                alert(`TU STOCK ES ${objRes.ROOT.datos.v_stock}`)
+                console.log(objRes)
             },
             preparaMenu: function (n) {
                 var tb = Phx.vista.ProductoBase.superclass.preparaMenu.call(this);
@@ -271,12 +288,13 @@ header("content-type: text/javascript; charset=UTF-8");
                 var tb = this.tbar;
                     var data = this.getSelectedData();
                     console.log('data',data)
-                if(data.desc_marca === 'SAMSUNG') {
-                    this.getBoton('btn_ejemplo').enable();
+                /*if(data.desc_marca === 'SAMSUNG') {
+                    this.getBoton('btn_ver_stock').enable();
 
                 } else {
-                    this.getBoton('btn_ejemplo').disable();
-                }
+                    this.getBoton('btn_ver_stock').disable();
+                }*/
+                this.getBoton('btn_ver_stock').enable();
                 return tb;
             },
         }

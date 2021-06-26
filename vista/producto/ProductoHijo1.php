@@ -61,7 +61,7 @@ header("content-type: text/javascript; charset=UTF-8");
             this.Cmp.id_marca.on('select', function (combo, record) {
                 console.log('combo',combo)
                 console.log('record',record)
-                this.Cmp.nombre.setValue(`${record.data.nombre}--`);
+                this.Cmp.nombre.setValue(`${record.data.nombre}-`);
             }, this);
 
             console.log('this.Cmp.nombre',this.Cmp.nombre)
@@ -70,14 +70,26 @@ header("content-type: text/javascript; charset=UTF-8");
                 console.log('asdasdasdasdas')
             }, this);
         },
-        tabsouth: [
+        tabeast: [ //tabsouth o tabeast
             {
                 url: '../../../sis_tienda/vista/movimiento/Movimiento.php',
                 title: 'MOvimiento ',
-                height: '50%',
+                width: '35%',
                 cls: 'Movimiento',
+            },
+            {
+                url: '../../../sis_tienda/vista/producto_categoria/ProductoCategoria.php',
+                title: 'ProductoCategoria ',
+                width: '35%',
+                cls: 'ProductoCategoria',
             }
-        ]
+        ],
+        onButtonEdit: function () {
+            Phx.vista.ProductoHijo1.superclass.onButtonEdit.call(this);
+            var rec = this.sm.getSelected();
+            console.log('rec',rec)
+            this.Cmp.id_marca.setValue(rec.data.id_marca)
+        }
 
     }
 </script>

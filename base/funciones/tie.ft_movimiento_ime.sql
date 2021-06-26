@@ -10,6 +10,9 @@ DECLARE
     v_resp                varchar;
     v_id_movimiento              integer;
     v_categoria              record;
+    v_sum_entrada   integer;
+    v_sum_salida    integer;
+    v_stock    integer;
 BEGIN
     v_nombre_funcion = 'tie.ft_movimiento_ime';
     v_parametros = pxp.f_get_record(p_tabla);
@@ -105,6 +108,71 @@ BEGIN
 
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','modificado exitoso'||v_parametros.id_movimiento||')');
             v_resp = pxp.f_agrega_clave(v_resp,'v_id_movimiento',v_parametros.id_movimiento::varchar);
+
+            --Devuelve la respuesta
+            return v_resp;
+
+        end;
+
+
+        /*********************************
+         #TRANSACCION:  'TIE_MOV_MOD'
+         #DESCRIPCION:    ELIMINAR categoria
+         #AUTOR:        favio figueroa
+         #FECHA:        17-04-2020 01:52:57
+        ***********************************/
+
+    elsif(p_transaccion='TIE_MOV_MOD')then
+
+        begin
+
+
+            UPDATE tie.tmovimiento SET fecha_mod = now(),
+                                      id_usuario_mod = p_id_usuario,
+                                      id_producto = v_parametros.id_producto,
+                                      tipo = v_parametros.tipo,
+                                      cantidad_movida = v_parametros.cantidad_movida
+            where id_movimiento = v_parametros.id_movimiento;
+
+
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','modificado exitoso'||v_parametros.id_movimiento||')');
+            v_resp = pxp.f_agrega_clave(v_resp,'v_id_movimiento',v_parametros.id_movimiento::varchar);
+
+            --Devuelve la respuesta
+            return v_resp;
+
+        end;
+
+
+        /*********************************
+         #TRANSACCION:  'TIE_MOV_VS'
+         #DESCRIPCION:   VER STOCK
+         #AUTOR:        favio figueroa
+         #FECHA:        17-04-2020 01:52:57
+        ***********************************/
+
+    elsif(p_transaccion='TIE_MOV_VS')then
+
+        begin
+
+            SELECT sum(cantidad_movida) as sum_entrada
+            INTO v_sum_entrada
+            FROM tie.tmovimiento
+            WHERE tipo = 'ENTRADA'
+              AND id_producto = v_parametros.id_producto;
+
+
+            SELECT sum(cantidad_movida) as sum_salida
+            into v_sum_salida
+            FROM tie.tmovimiento
+            WHERE tipo = 'SALIDA'
+              AND id_producto = v_parametros.id_producto;
+
+            v_stock:= v_sum_entrada - v_sum_salida;
+
+
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','modificado exitoso'||v_stock||')');
+            v_resp = pxp.f_agrega_clave(v_resp,'v_stock',v_stock::varchar);
 
             --Devuelve la respuesta
             return v_resp;

@@ -5,9 +5,32 @@ header("content-type: text/javascript; charset=UTF-8");
 
     Phx.vista.Movimiento = Ext.extend(Phx.gridInterfaz, {
 
+            tipoSeleccionado: 'ENTRADA',
+            gruposBarraTareas: [
+                {
+                    name: 'ENTRADA',
+                    title: '<h1 align="center">Entradas</h1>',
+                    grupo: 0,
+                    height: 0,
+
+                },
+                {
+                    name: 'SALIDA',
+                    title: '<h1 align="center">Salidas</h1>',
+                    grupo: 0,
+                    height: 0,
+
+                },
+            ],
+            beditGroups: [0,1,2],
+            bactGroups: [0,1,2],
+            bexcelGroups: [0,1,2],
             constructor: function (config) {
                 this.maestro = config.maestro;
                 //llama al constructor de la clase padre
+
+
+
                 Phx.vista.Movimiento.superclass.constructor.call(this, config);
                 this.init();
                 // this.load({params:{start:0, limit:this.tam_pag}})
@@ -213,12 +236,21 @@ header("content-type: text/javascript; charset=UTF-8");
             onReloadPage: function (e) {
                 this.maestro = e;
                 this.store.baseParams = {id_producto: this.maestro.id_producto};
-                this.load({params: {start: 0, limit: 50}});
+                this.load({params: {start: 0, limit: 50, tipo: this.tipoSeleccionado}});
             },
             loadValoresIniciales: function () {
                 this.Cmp.id_producto.setValue(this.maestro.id_producto);
                 Phx.vista.Movimiento.superclass.loadValoresIniciales.call(this);
-            }
+            },
+            getParametrosFiltro: function () {
+                    this.store.baseParams.tipo = this.tipoSeleccionado;
+            },
+            actualizarSegunTab: function (name, indice) {
+                console.log('name',name)
+                this.tipoSeleccionado = name;
+                this.getParametrosFiltro();
+                this.load({params:{start:0, limit:this.tam_pag}})
+            },
         }
     )
 
