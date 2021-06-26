@@ -42,7 +42,3 @@ select pxp.f_insert_tgui ('<i class="fa fa-shopping-cart fa-2x"></i> TIENDA', ''
 select pxp.f_insert_tgui ('Dosificacion', 'Dosificacion', 'DOSI', 'si', 4, 'sis_tienda/vista/dosificacion/Dosificacion.php', 2, '', 'Dosificacion', 'TIE');
 
 /*******************************************F-DAT-ATB-DZ-1-26/06/2021***********************************************/
-
-/*******************************************I-DAT-DZ-TIE-5-26/06/2021***********************************************/
-select pxp.f_insert_tgui ('VentaDetalle', 'Venta Detalle', 'VDT', 'si', 6, 'sis_tienda/vista/venta_detalle/VentaDetalle.php', 2, '', 'VentaDetalle', 'TIE');
-/*******************************************F-DAT-DZ-TIE-5-26/06/2021***********************************************/
