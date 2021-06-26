@@ -49,12 +49,45 @@ CREATE TABLE tie.tproducto_categoria (
 /***********************************F-SCP-FFP-TIE-3-23/06/2021*****************************************/
 
 
-/***********************************I-SCP-FFP-TIE-3-23/06/2021****************************************/
-CREATE TABLE tie.tmovimiento (
-                                         id_movimiento serial NOT NULL,
-                                         id_producto integer,
-                                         tipo varchar,
-                                         cantidad_movida integer,
-                                         CONSTRAINT pk_tmoviento_id PRIMARY KEY(id_movimiento)
+/***********************************I-SCP-FFP-TIE-3-26/06/2021****************************************/
+
+CREATE TABLE tie.tdosificacion (
+                            id_dosificacion serial NOT NULL,
+                            llave varchar,
+                            fecha_ini date,
+                            fecha_fin date,
+                            nro_aut varchar,
+                            nro_inicio varchar,
+                            CONSTRAINT pk_tdosificacion__id_dosificacion PRIMARY KEY(id_dosificacion)
 ) INHERITS (pxp.tbase);
-/***********************************F-SCP-FFP-TIE-3-23/06/2021*****************************************/
+
+CREATE TABLE tie.tcliente (
+                            id_cliente serial NOT NULL,
+                            id_persona integer,
+                            nit varchar,
+                            razon_social varchar,
+                            CONSTRAINT pk_tcliente__id_cliente PRIMARY KEY(id_cliente)
+) INHERITS (pxp.tbase);
+
+
+CREATE TABLE tie.tventa (
+                             id_venta serial NOT NULL,
+                             id_cliente integer,
+                             id_periodo integer,
+                             fecha date,
+                             nro_fac integer,
+                             nro_venta varchar,
+                             total numeric,
+                             CONSTRAINT pk_tventa__id_venta PRIMARY KEY(id_venta)
+) INHERITS (pxp.tbase);
+
+CREATE TABLE tie.tventa_detalle (
+                             id_venta_detalle serial NOT NULL,
+                             id_venta integer,
+                             id_producto integer,
+                             cantidad_vendida integer,
+                             precio_unitario numeric(10,2),
+                             precio_total numeric(10,2),
+                             CONSTRAINT pk_tventa_detalle__id_venta_detalle PRIMARY KEY(id_venta_detalle)
+) INHERITS (pxp.tbase);
+/***********************************F-SCP-FFP-TIE-3-26/06/2021*****************************************/
