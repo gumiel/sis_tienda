@@ -6,6 +6,10 @@ class ACTVentaDetalle extends ACTbase
         $this->objParam->defecto('ordenacion', 'id_venta_detalle');
         $this->objParam->defecto('dir_ordenacion', 'ASC');
 
+        if($this->objParam->getParametro('id_venta') != '') {
+            $this->objParam->addFiltro("tdv.id_venta= ".$this->objParam->getParametro('id_venta'));
+        }
+
         if ($this->objParam->getParametro('tipoReporte') == 'excel_grid' || $this->objParam->getParametro('tipoReporte') == 'pdf_grid') {
             $this->objReporte = new Reporte($this->objParam, $this);
             $this->res = $this->objReporte->generarReporteListado('MODVentaDetalle', 'listarVentaDetalle');
@@ -27,6 +31,7 @@ class ACTVentaDetalle extends ACTbase
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
+
     function eliminarVentaDetalle() {
         $this->objFunc=$this->create('MODVentaDetalle');
         $this->res=$this->objFunc->eliminarVentaDetalle($this->objParam);

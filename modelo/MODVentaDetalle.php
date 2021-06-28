@@ -26,8 +26,8 @@ class MODVentaDetalle extends MODbase
         $this->captura('id_venta','int4');
         $this->captura('id_producto','int4');
         $this->captura('cantidad_vendida','int4');
-        $this->captura('precio_unitario','double');
-        $this->captura('precio_total','double');
+        $this->captura('precio_unitario','numeric');
+        $this->captura('precio_total','numeric');
         $this->captura('nombre','varchar');
         $this->captura('estado_reg','varchar');
         $this->captura('nombre','varchar');
@@ -57,8 +57,8 @@ class MODVentaDetalle extends MODbase
         $this->setParametro('id_venta','id_venta','int4');
         $this->setParametro('id_producto','id_producto','int4');
         $this->setParametro('cantidad_vendida','cantidad_vendida','int4');
-        $this->setParametro('precio_unitario','precio_unitario','double');
-        $this->setParametro('precio_total','precio_total','double');
+        $this->setParametro('precio_unitario','precio_unitario','numeric');
+        $this->setParametro('precio_total','precio_total','numeric');
 
         //Ejecuta la instruccion
         $this->armarConsulta();
@@ -76,8 +76,8 @@ class MODVentaDetalle extends MODbase
         $this->setParametro('id_venta_detalle','id_venta_detalle','int4');
         $this->setParametro('id_producto','id_producto','int4');
         $this->setParametro('cantidad_vendida','cantidad_vendida','int4');
-        $this->setParametro('precio_unitario','precio_unitario','double');
-        $this->setParametro('precio_total','precio_total','double');
+        $this->setParametro('precio_unitario','precio_unitario','numeric');
+        $this->setParametro('precio_total','precio_total','numeric');
 
         //Ejecuta la instruccion
         $this->armarConsulta();
