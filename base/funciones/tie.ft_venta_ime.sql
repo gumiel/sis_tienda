@@ -10,6 +10,9 @@ DECLARE
     v_resp                varchar;
     v_id_venta             integer;
     v_venta               record;
+    v_details_json          json;
+    record_detail          record;
+    v_periodo          record;
 BEGIN
     v_nombre_funcion = 'tie.ft_venta_ime';
     v_parametros = pxp.f_get_record(p_tabla);
@@ -24,6 +27,16 @@ BEGIN
     if(p_transaccion='TIE_VENTA_INS')then
 
         begin
+
+
+            v_periodo:= param.f_get_periodo_gestion(v_parametros.fecha::date);
+
+
+
+
+
+
+
             INSERT into tie.tventa(
                 id_usuario_reg,
                 id_usuario_mod,
@@ -49,12 +62,54 @@ BEGIN
                          null,
                          null,
                          v_parametros.id_cliente,
-                         v_parametros.id_periodo,
+                         v_periodo.po_id_periodo,
                          v_parametros.fecha,
-                         v_parametros.nro_fac,
+                         '1',
                          v_parametros.nro_venta,
                          v_parametros.total
                      ) RETURNING id_venta into v_id_venta;
+
+
+
+            /*
+           details":"[{\"id_producto\":\"7\",\"precio_unitario\":12,\"precio_total\":12,\"cantidad_vendida\":1}]"}
+           */
+            FOR record_detail IN (SELECT json_array_elements(v_parametros.details::json) obj)
+                LOOP
+
+                    INSERT into tie.tventa_detalle (
+                        id_usuario_reg,
+                        id_usuario_mod,
+                        fecha_reg,
+                        fecha_mod,
+                        estado_reg,
+                        id_usuario_ai,
+                        usuario_ai,
+                        obs_dba,
+                        id_venta,
+                        id_producto,
+                        cantidad_vendida,
+                        precio_unitario,
+                        precio_total
+                    ) VALUES (
+                                 p_id_usuario,
+                                 null,
+                                 now(),
+                                 null,
+                                 'activo',
+                                 null,
+                                 null,
+                                 null,
+                                 v_id_venta,
+                                 cast(record_detail.obj->>'id_producto' as integer),
+                                 cast(record_detail.obj->>'cantidad_vendida' as integer),
+                                 cast(record_detail.obj->>'precio_unitario' as numeric),
+                                 cast(record_detail.obj->>'precio_total' as numeric)
+
+                             );
+
+                END LOOP;
+
 
 
 

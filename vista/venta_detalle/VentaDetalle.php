@@ -8,7 +8,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 //llama al constructor de la clase padre
                 Phx.vista.VentaDetalle.superclass.constructor.call(this,config);
                 this.init();
-                this.load({params:{start:0, limit:this.tam_pag}})
+                //this.load({params:{start:0, limit:this.tam_pag}})
             },
 
             Atributos:[
@@ -242,6 +242,15 @@ header("content-type: text/javascript; charset=UTF-8");
             },
             bdel:true,
             bsave:true,
+            onReloadPage: function(m) {
+                this.maestro = m;
+                this.store.baseParams = { id_venta: this.maestro.id_venta };
+                this.load({params: {start: 0, limit: 50 }});
+            },
+            loadValoresIniciales: function () {
+                this.Cmp.id_venta.setValue(this.maestro.id_venta);
+                Phx.vista.VentaDetalle.superclass.loadValoresIniciales.call(this);
+            },
         }
     )
 </script>

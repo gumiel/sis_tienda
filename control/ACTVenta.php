@@ -19,6 +19,7 @@ class ACTVenta extends ACTbase
     }
 
     function insertarVenta() {
+        
         $this->objFunc=$this->create('MODVenta');
         if($this->objParam->insertar('id_venta')){
             $this->res=$this->objFunc->insertarVenta($this->objParam);

@@ -248,8 +248,70 @@ header("content-type: text/javascript; charset=UTF-8");
                 field: 'id_venta',
                 direction: 'ASC'
             },
-            bdel:true,
+            bdel:false,
+            bedit:false,
             bsave:true,
+            tabsouth: [
+                {
+                    url: '../../../sis_tienda/vista/venta_detalle/VentaDetalle.php',
+                    title: 'Venta Detalle',
+                    height: '50%',
+                    cls: 'VentaDetalle',
+                }
+            ],
+            onSaveForm: function (form, objRes) {
+                var me = this;
+                form.panel.destroy();
+                me.reload();
+            },
+            abrirFormulario: function () {
+                var me = this;
+                me.objSolForm = Phx.CP.loadWindows(
+                    '../../../sis_tienda/vista/venta/FormVenta.php',
+                    'Formulario Venta',
+                {
+                    modal: true,
+                        width: '90%',
+                    height: '90%',
+                },
+                {
+                    data: {objPadre: me, tipo_form: 'new'}
+                },
+                this.idContenedor,
+                    'FormVenta',
+                    {
+                        config: [{
+                            event:'successsave',
+                            delegate: this.onSaveForm
+                        }],
+                        scope: this
+                    }
+                );
+
+
+                /*Phx.CP.loadWindows('../../../sis_devoluciones/vista/liquidacion/FormGenerarNota.php',
+                    'Item',
+                    {
+                        width:900,
+                        height:400
+                    },rec.json,this.idContenedor,'FormGenerarNota',
+                    {
+                        config: [{
+                            event: 'successsave',
+                            delegate: this.onSavedGenerarNota,
+                        }],
+                        scope: this
+                    }
+                )*/
+
+
+
+
+
+            },
+            onButtonNew: function () {
+                this.abrirFormulario();
+            },
         }
     )
 

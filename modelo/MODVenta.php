@@ -61,6 +61,7 @@ class MODVenta extends MODbase
         $this->setParametro('nro_fac','nro_fac','int4');
         $this->setParametro('nro_venta','nro_venta','varchar');
         $this->setParametro('total','total','numeric');
+        $this->setParametro('details','details','text');
 
         //Ejecuta la instruccion
         $this->armarConsulta();
