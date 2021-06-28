@@ -31,6 +31,7 @@ class ACTVentaDetalle extends ACTbase
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
+
     function eliminarVentaDetalle() {
         $this->objFunc=$this->create('MODVentaDetalle');
         $this->res=$this->objFunc->eliminarVentaDetalle($this->objParam);

@@ -66,7 +66,7 @@ BEGIN
                          v_parametros.fecha,
                          '1',
                          v_parametros.nro_venta,
-                         v_parametros.total
+                         null
                      ) RETURNING id_venta into v_id_venta;
 
 

@@ -8,7 +8,8 @@ header("content-type: text/javascript; charset=UTF-8");
                 //llama al constructor de la clase padre
                 Phx.vista.VentaDetalle.superclass.constructor.call(this,config);
                 this.init();
-                //this.load({params:{start:0, limit:this.tam_pag}})
+
+                //this.load({params:{start:0, limit:this.tam_pag, id_venta: config.id_venta}})
             },
 
             Atributos:[
@@ -42,14 +43,14 @@ header("content-type: text/javascript; charset=UTF-8");
                 {
                     config:{
                         name: 'nombre',
-                        fieldLabel: 'nombre',
+                        fieldLabel: 'Nombre Producto',
                         allowBlank: true,
                         anchor: '80%',
                         gwidth: 100,
                         maxLength:255
                     },
                     type:'TextField',
-                    filters:{pfiltro:'tm.nombre',type:'string'},
+                    filters:{pfiltro:'tp.nombre',type:'string'},
                     id_grupo:1,
                     grid:true,
                     form:true,
@@ -58,14 +59,14 @@ header("content-type: text/javascript; charset=UTF-8");
                 {
                     config:{
                         name: 'cantidad_vendida',
-                        fieldLabel: 'cantidad_vendida',
+                        fieldLabel: 'Cantidad Vendida',
                         allowBlank: true,
                         anchor: '80%',
                         gwidth: 100,
                         maxLength:255
                     },
                     type:'TextField',
-                    filters:{pfiltro:'tm.cantidad_vendida',type:'string'},
+                    filters:{pfiltro:'tvd.cantidad_vendida',type:'string'},
                     id_grupo:1,
                     grid:true,
                     form:true,
@@ -74,14 +75,14 @@ header("content-type: text/javascript; charset=UTF-8");
                 {
                     config:{
                         name: 'precio_unitario',
-                        fieldLabel: 'precio_unitario',
+                        fieldLabel: 'Precio Unitario',
                         allowBlank: true,
                         anchor: '80%',
                         gwidth: 100,
                         maxLength:255
                     },
                     type:'TextField',
-                    filters:{pfiltro:'tm.precio_unitario',type:'string'},
+                    filters:{pfiltro:'tvd.precio_unitario',type:'string'},
                     id_grupo:1,
                     grid:true,
                     form:true,
@@ -90,14 +91,14 @@ header("content-type: text/javascript; charset=UTF-8");
                 {
                     config:{
                         name: 'precio_total',
-                        fieldLabel: 'precio_total',
+                        fieldLabel: 'Precio  Total',
                         allowBlank: true,
                         anchor: '80%',
                         gwidth: 100,
                         maxLength:255
                     },
                     type:'TextField',
-                    filters:{pfiltro:'tm.precio_total',type:'string'},
+                    filters:{pfiltro:'tvd.precio_total',type:'string'},
                     id_grupo:1,
                     grid:true,
                     form:true,
@@ -113,7 +114,7 @@ header("content-type: text/javascript; charset=UTF-8");
                         maxLength:10
                     },
                     type:'TextField',
-                    filters:{pfiltro:'tm.estado_reg',type:'string'},
+                    filters:{pfiltro:'tvd.estado_reg',type:'string'},
                     id_grupo:1,
                     grid:true,
                     form:false
@@ -144,7 +145,7 @@ header("content-type: text/javascript; charset=UTF-8");
                         renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
                     },
                     type:'DateField',
-                    filters:{pfiltro:'tm.fecha_reg',type:'date'},
+                    filters:{pfiltro:'tvd.fecha_reg',type:'date'},
                     id_grupo:1,
                     grid:true,
                     form:false
@@ -159,7 +160,7 @@ header("content-type: text/javascript; charset=UTF-8");
                         maxLength:4
                     },
                     type:'Field',
-                    filters:{pfiltro:'tm.id_usuario_ai',type:'numeric'},
+                    filters:{pfiltro:'tvd.id_usuario_ai',type:'numeric'},
                     id_grupo:1,
                     grid:false,
                     form:false
@@ -174,7 +175,7 @@ header("content-type: text/javascript; charset=UTF-8");
                         maxLength:300
                     },
                     type:'TextField',
-                    filters:{pfiltro:'tm.usuario_ai',type:'string'},
+                    filters:{pfiltro:'tvd.usuario_ai',type:'string'},
                     id_grupo:1,
                     grid:true,
                     form:false
@@ -189,7 +190,7 @@ header("content-type: text/javascript; charset=UTF-8");
                         maxLength:4
                     },
                     type:'Field',
-                    filters:{pfiltro:'tm.cuenta',type:'string'},
+                    filters:{pfiltro:'tvd.cuenta',type:'string'},
                     id_grupo:1,
                     grid:true,
                     form:false
@@ -205,7 +206,7 @@ header("content-type: text/javascript; charset=UTF-8");
                         renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
                     },
                     type:'DateField',
-                    filters:{pfiltro:'tm.fecha_mod',type:'date'},
+                    filters:{pfiltro:'tvd.fecha_mod',type:'date'},
                     id_grupo:1,
                     grid:true,
                     form:false
@@ -237,7 +238,7 @@ header("content-type: text/javascript; charset=UTF-8");
 
             ],
             sortInfo:{
-                field: 'id_marca',
+                field: 'id_venta_detalle',
                 direction: 'ASC'
             },
             bdel:true,
@@ -251,6 +252,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 this.Cmp.id_venta.setValue(this.maestro.id_venta);
                 Phx.vista.VentaDetalle.superclass.loadValoresIniciales.call(this);
             },
+
         }
     )
 </script>
