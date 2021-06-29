@@ -213,9 +213,9 @@ header("content-type: text/javascript; charset=UTF-8");
                 }
             ],
             tam_pag:50,
-            title:'Marca',
-            ActSave:'../../sis_tienda/control/VentaDetalle/insertarVentaDetalle',
-            ActDel:'../../sis_tienda/control/VentaDetalle/eliminarVentaDetalle',
+            title:'VentaDetalle',
+            //ActSave:'../../sis_tienda/control/VentaDetalle/insertarVentaDetalle',
+            //ActDel:'../../sis_tienda/control/VentaDetalle/eliminarVentaDetalle',
             ActList:'../../sis_tienda/control/VentaDetalle/listarVentaDetalle',
             id_store:'id_venta_detalle',
             fields: [
@@ -251,7 +251,7 @@ header("content-type: text/javascript; charset=UTF-8");
             loadValoresIniciales: function () {
                 this.Cmp.id_venta.setValue(this.maestro.id_venta);
                 Phx.vista.VentaDetalle.superclass.loadValoresIniciales.call(this);
-            },
+            }
 
         }
     )

@@ -13,6 +13,11 @@ DECLARE
     v_details_json          json;
     record_detail          record;
     v_periodo          record;
+    v_dosificacion          record;
+    v_codigo_control text;
+    v_nro_fac integer;
+    v_nit varchar;
+    v_importe_total numeric(10,2) DEFAULT 0;
 BEGIN
     v_nombre_funcion = 'tie.ft_venta_ime';
     v_parametros = pxp.f_get_record(p_tabla);
@@ -31,7 +36,26 @@ BEGIN
 
             v_periodo:= param.f_get_periodo_gestion(v_parametros.fecha::date);
 
+            SELECT id_dosificacion,llave, nro_aut, nro_inicio
+            INTO v_dosificacion
+            FROM tie.tdosificacion
+            WHERE fecha_ini <= now()::date
+            AND fecha_fin >= now()::date
+            FOR UPDATE;
 
+
+            IF(v_dosificacion is null) then
+                RAISE EXCEPTION '%', 'No tienes una dosificacion';
+            END IF;
+
+            v_nro_fac:= v_dosificacion.nro_inicio;
+
+            select nit
+            into v_nit
+            from tie.tcliente
+                where id_cliente = v_parametros.id_cliente;
+
+            --CREATE FUNCTION f_gen_cod_control(llave_dosificacion character varying, autorizacion character varying, nro_factura character varying, nit character varying, fecha_emision character varying, monto_facturado numeric) RETURNS text
 
 
 
@@ -64,7 +88,7 @@ BEGIN
                          v_parametros.id_cliente,
                          v_periodo.po_id_periodo,
                          v_parametros.fecha,
-                         '1',
+                         v_nro_fac,
                          v_parametros.nro_venta,
                          null
                      ) RETURNING id_venta into v_id_venta;
@@ -77,6 +101,8 @@ BEGIN
             FOR record_detail IN (SELECT json_array_elements(v_parametros.details::json) obj)
                 LOOP
 
+
+                    v_importe_total:= v_importe_total + (cast(record_detail.obj->>'cantidad_vendida' as integer) * cast(record_detail.obj->>'precio_unitario' as numeric));
                     INSERT into tie.tventa_detalle (
                         id_usuario_reg,
                         id_usuario_mod,
@@ -111,6 +137,23 @@ BEGIN
                 END LOOP;
 
 
+            v_codigo_control:= pxp.f_gen_cod_control(v_dosificacion.llave,
+                                                     v_dosificacion.nro_aut,
+                                                     v_nro_fac::varchar,
+                                                     v_nit::varchar,
+                                                     to_char(now()::date, 'YYYYMMDD')::VARCHAR,
+                                                     round(v_importe_total::numeric, 0)
+                                   );
+
+           update tie.tventa set codigo_control = v_codigo_control
+            where id_venta = v_id_venta;
+
+
+
+
+            UPDATE tie.tdosificacion
+            SET nro_inicio = nro_inicio + 1
+            WHERE id_dosificacion = v_dosificacion.id_dosificacion;
 
 
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','inserccion exitoso'||v_id_venta||')');

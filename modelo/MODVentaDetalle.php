@@ -17,7 +17,7 @@ class MODVentaDetalle extends MODbase
 
     function listarVentaDetalle(){
         $this->procedimiento='tie.ft_venta_detalle_sel';
-        $this->transaccion='TIE_VENTA_DETALLE_SEL';
+        $this->transaccion='TIE_VEDET_SEL';
         $this->tipo_procedimiento='SEL';//tipo de transaccion
 
 
@@ -30,7 +30,6 @@ class MODVentaDetalle extends MODbase
         $this->captura('precio_total','numeric');
         $this->captura('nombre','varchar');
         $this->captura('estado_reg','varchar');
-        $this->captura('nombre','varchar');
         $this->captura('id_usuario_reg','int4');
         $this->captura('fecha_reg','timestamp');
         $this->captura('usuario_ai','varchar');

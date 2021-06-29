@@ -91,3 +91,14 @@ CREATE TABLE tie.tventa_detalle (
                              CONSTRAINT pk_tventa_detalle__id_venta_detalle PRIMARY KEY(id_venta_detalle)
 ) INHERITS (pxp.tbase);
 /***********************************F-SCP-FFP-TIE-3-26/06/2021*****************************************/
+
+
+/***********************************I-SCP-FFP-TIE-1-28/06/2021****************************************/
+alter table tie.tventa
+    add codigo_control varchar;
+
+
+alter table tie.tdosificacion alter column nro_inicio type integer using nro_inicio::integer;
+
+
+/***********************************F-SCP-FFP-TIE-1-28/06/2021*****************************************/
