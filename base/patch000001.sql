@@ -48,6 +48,16 @@ CREATE TABLE tie.tproducto_categoria (
 ) INHERITS (pxp.tbase);
 /***********************************F-SCP-FFP-TIE-3-23/06/2021*****************************************/
 
+/***********************************I-SCP-FFP-TIE-4-23/06/2021****************************************/
+CREATE TABLE tie.tmovimiento (
+                                 id_movimiento serial NOT NULL,
+                                 id_producto integer,
+                                 tipo varchar,
+                                 cantidad_movida integer,
+                                 CONSTRAINT pk_tmoviento_id PRIMARY KEY(id_movimiento)
+) INHERITS (pxp.tbase);
+/***********************************F-SCP-FFP-TIE-4-23/06/2021*****************************************/
+
 
 /***********************************I-SCP-FFP-TIE-3-26/06/2021****************************************/
 
