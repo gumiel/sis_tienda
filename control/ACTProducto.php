@@ -9,6 +9,9 @@ class ACTProducto extends ACTbase
         if($this->objParam->getParametro('id_marca') != '') {
             $this->objParam->addFiltro("tp.id_marca= ".$this->objParam->getParametro('id_marca'));
         }
+        if($this->objParam->getParametro('id_producto') != '') {
+            $this->objParam->addFiltro("tp.id_producto= ".$this->objParam->getParametro('id_producto'));
+        }
 
         if ($this->objParam->getParametro('tipoReporte') == 'excel_grid' || $this->objParam->getParametro('tipoReporte') == 'pdf_grid') {
             $this->objReporte = new Reporte($this->objParam, $this);

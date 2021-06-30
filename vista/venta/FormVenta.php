@@ -26,7 +26,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 'id_producto': new Ext.form.ComboBox({
                     name: 'id_producto',
                     msgTarget: 'title',
-                    fieldLabel: 'id_producto',
+                    fieldLabel: 'Producto',
                     allowBlank: false,
                     emptyText: 'Elija una opción...',
                     store: new Ext.data.JsonStore({
@@ -115,10 +115,10 @@ header("content-type: text/javascript; charset=UTF-8");
             //set descriptins values ...  in combos boxs
 
             //todo borrar esto despues
-            /*var cmb_rec = this.detCmp['id_concepto_ingas'].store.getById(rec.get('id_concepto_ingas'));
+            var cmb_rec = this.detCmp['id_producto'].store.getById(rec.get('id_producto'));
             if (cmb_rec) {
-                rec.set('desc_concepto_ingas', cmb_rec.get('desc_ingas'));
-            }*/
+                rec.set('id_producto', cmb_rec.get('nombre'));
+            }
 
         },
         buildDetailGrid: function () {
@@ -159,7 +159,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 console.log('validateedit');
             }, this);
 
-            this.editorDetail.on('afteredit', this.onAfterEdit, this);
+            this.editorDetail.on('afteredit', this.onAfterxEdit, this);
 
 
             this.megrid = new Ext.grid.GridPanel({
@@ -216,12 +216,7 @@ header("content-type: text/javascript; charset=UTF-8");
                         sortable: true,
                         hidden: false,
                         hideable: false,
-                        editor: {
-                            xtype: 'numberfield',
-                            allowBlank: true,
-                            enable: false,
-                            enableKeyEvents: true,
-                        },
+                        editor: this.detCmp.cantidad_vendida,
                         summaryType: 'count',
 
                         summaryRenderer: function (v, params, data) {
@@ -231,9 +226,8 @@ header("content-type: text/javascript; charset=UTF-8");
 
                     {
 
-                        header: 'id_producto',
+                        header: 'Producto',
                         dataIndex: 'id_producto',
-
                         align: 'center',
                         width: 200,
                         editor: this.detCmp.id_producto
@@ -242,10 +236,10 @@ header("content-type: text/javascript; charset=UTF-8");
 
                     {
 
-                        header: 'precio_unitario',
+                        header: 'P. Unit',
                         dataIndex: 'precio_unitario',
                         align: 'center',
-                        width: 50,
+                        width: 130,
                         trueText: 'Yes',
                         falseText: 'No',
                         //minValue: 0.001,
@@ -257,14 +251,14 @@ header("content-type: text/javascript; charset=UTF-8");
 
                     {
 
-                        header: 'precio_total',
+                        header: 'Total',
                         dataIndex: 'precio_total',
                         css: {
                             background: "#ccc",
                         },
                         format: '$0,0.00',
                         align: 'center',
-                        width: 50,
+                        width: 130,
                         summaryType: 'sum',
                         trueText: 'Yes',
                         falseText: 'No',
@@ -325,7 +319,7 @@ header("content-type: text/javascript; charset=UTF-8");
                                     xtype: 'fieldset',
                                     //frame: true,
                                     layout: 'form',
-                                    title: ' Venta ',
+                                    title: ' Cliente ',
                                     //width: '33%',
 
                                     //border: false,
@@ -333,6 +327,27 @@ header("content-type: text/javascript; charset=UTF-8");
                                     padding: '0 0 0 10',
                                     bodyStyle: 'padding-left:5px;',
                                     id_grupo: 0,
+                                    items: [],
+                                }]
+                            },
+                            {
+                                bodyStyle: 'padding-right:5px;',
+
+                                border: false,
+                                autoHeight: true,
+                                columnWidth: .32,
+                                items: [{
+                                    xtype: 'fieldset',
+                                    //frame: true,
+                                    layout: 'form',
+                                    title: ' Datos Generales ',
+                                    //width: '33%',
+
+                                    //border: false,
+                                    //margins: '0 0 0 5',
+                                    padding: '0 0 0 10',
+                                    bodyStyle: 'padding-left:5px;',
+                                    id_grupo: 1,
                                     items: [],
                                 }]
                             },
@@ -390,11 +405,18 @@ header("content-type: text/javascript; charset=UTF-8");
                     anchor: '70%',
                     gwidth: 150,
                     minChars: 2,
+                    turl: '../../../sis_tienda/vista/cliente/Cliente.php',
+                    ttitle: 'Clientes',
+                    tasignacion: true,
+                    tname: 'id_cliente',
+                    tdata: {},
+                    tcls: 'Cliente',
+                    tpl:'<tpl for="."><div class="x-combo-list-item"><p>{nit}-{razon_social}</p><div></tpl>',
                     renderer: function (value, p, record) {
                         return String.format('{0}', record.data['razon_social'])
                     },
                 },
-                type: 'ComboBox',
+                type: 'TrigguerCombo',
                 id_grupo: 0,
                 filters: {pfiltro: 'tm.nombre', type:'string'},
                 grid: true,
@@ -435,8 +457,29 @@ header("content-type: text/javascript; charset=UTF-8");
             },
 
         ],
+        obtenerPrecioTotalEnDetalle: function () {
+            const precioUnitario = this.detCmp.precio_unitario.getValue();
+            const cantidad = this.detCmp.cantidad_vendida.getValue();
+            const total = parseFloat(precioUnitario) * parseFloat(cantidad);
+            this.detCmp.precio_total.setValue(total);
+        },
         iniciarEventos: function () {
-            
+
+
+
+            this.detCmp.precio_unitario.on('blur', function () {
+                this.obtenerPrecioTotalEnDetalle();
+            }, this);
+            this.detCmp.cantidad_vendida.on('blur', function () {
+                this.obtenerPrecioTotalEnDetalle();
+            }, this);
+            this.detCmp.id_producto.on('select', function (combo, record) {
+                const { json: { precio } } = record;
+
+                //const precio = record.json.precio;
+                this.detCmp.precio_unitario.setValue(precio);
+                this.obtenerPrecioTotalEnDetalle();
+            }, this);
         },
         onSubmit: function (o) {
 

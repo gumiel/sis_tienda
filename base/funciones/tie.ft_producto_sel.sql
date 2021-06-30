@@ -38,23 +38,28 @@ BEGIN
     if(p_transaccion='TIE_PRODUCTO_SEL')then
         begin
             v_consulta:= 'select tp.id_producto,
-						tp.estado_reg,
-						tp.nombre,tp.precio,
-						tp.id_usuario_reg,
-						tp.fecha_reg,
-						tp.usuario_ai,
-						tp.id_usuario_ai,
-						tp.id_usuario_mod,
-						tp.fecha_mod,
-						usu1.cuenta as usr_reg,
-						usu2.cuenta as usr_mod,
-						tp.id_marca,
-						tm.nombre as desc_marca,
-						(select string_agg(tpc.id_categoria::text, '','')::varchar as id_categoria  from tie.tproducto_categoria tpc where tp.id_producto = tpc.id_producto)
-                         FROM tie.tproducto tp
-                         inner join segu.tusuario usu1 on usu1.id_usuario = tp.id_usuario_reg
-                         left join segu.tusuario usu2 on usu2.id_usuario = tp.id_usuario_mod
-                         inner join tie.tmarca tm on tm.id_marca = tp.id_marca
+                           tp.estado_reg,
+                           tp.nombre,tp.precio,
+                           tp.id_usuario_reg,
+                           tp.fecha_reg,
+                           tp.usuario_ai,
+                           tp.id_usuario_ai,
+                           tp.id_usuario_mod,
+                           tp.fecha_mod,
+                           usu1.cuenta as usr_reg,
+                           usu2.cuenta as usr_mod,
+                           tp.id_marca,
+                           tm.nombre as desc_marca,
+                           (select string_agg(tpc.id_categoria::text, '','')::varchar as id_categoria  from tie.tproducto_categoria tpc where tp.id_producto = tpc.id_producto),
+                           ta.nombre_archivo as desc_archivo_tiepro,
+                           ta.folder,
+                           ta.extension
+                    FROM tie.tproducto tp
+                             inner join segu.tusuario usu1 on usu1.id_usuario = tp.id_usuario_reg
+                             left join segu.tusuario usu2 on usu2.id_usuario = tp.id_usuario_mod
+                             inner join tie.tmarca tm on tm.id_marca = tp.id_marca
+                            left join param.tarchivo ta on ta.id_tabla = tp.id_producto and ta.id_archivo_fk is NOT NULL
+                            left join param.ttipo_archivo tta on tta.id_tipo_archivo = ta.id_tipo_archivo AND tta.codigo = ''TIEPRO''
                           where  ';
 
             --Definicion de la respuesta
@@ -80,6 +85,8 @@ BEGIN
                          inner join segu.tusuario usu1 on usu1.id_usuario = tp.id_usuario_reg
                          left join segu.tusuario usu2 on usu2.id_usuario = tp.id_usuario_mod
                          inner join tie.tmarca tm on tm.id_marca = tp.id_marca
+                        left join param.tarchivo ta on ta.id_tabla = tp.id_producto and ta.id_archivo_fk is NOT NULL
+                        left join param.ttipo_archivo tta on tta.id_tipo_archivo = ta.id_tipo_archivo AND tta.codigo = ''TIEPRO''
                           where  ';
 
             --Definicion de la respuesta

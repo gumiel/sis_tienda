@@ -38,6 +38,9 @@ class MODProducto extends MODbase
         $this->captura('id_marca','int4');
         $this->captura('desc_marca','varchar');
         $this->captura('id_categoria','varchar');
+        $this->captura('desc_archivo_tiepro','varchar');
+        $this->captura('folder','varchar');
+        $this->captura('extension','varchar');
 
 
         //Ejecuta la instruccion

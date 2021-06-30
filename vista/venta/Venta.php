@@ -9,6 +9,9 @@ header("content-type: text/javascript; charset=UTF-8");
                 this.maestro=config.maestro;
                 //llama al constructor de la clase padre
                 Phx.vista.Venta.superclass.constructor.call(this,config);
+
+               
+
                 this.init();
                 this.load({params:{start:0, limit:this.tam_pag}})
             },
@@ -263,6 +266,8 @@ header("content-type: text/javascript; charset=UTF-8");
                 var me = this;
                 form.panel.destroy();
                 me.reload();
+
+                console.log('objResobjResobjResobjRes', objRes)
             },
             abrirFormulario: function () {
                 var me = this;
@@ -312,6 +317,9 @@ header("content-type: text/javascript; charset=UTF-8");
             onButtonNew: function () {
                 this.abrirFormulario();
             },
+
+
+
         }
     )
 

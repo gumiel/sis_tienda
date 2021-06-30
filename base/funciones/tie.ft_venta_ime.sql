@@ -18,6 +18,7 @@ DECLARE
     v_nro_fac integer;
     v_nit varchar;
     v_importe_total numeric(10,2) DEFAULT 0;
+    v_stock integer;
 BEGIN
     v_nombre_funcion = 'tie.ft_venta_ime';
     v_parametros = pxp.f_get_record(p_tabla);
@@ -101,6 +102,36 @@ BEGIN
             FOR record_detail IN (SELECT json_array_elements(v_parametros.details::json) obj)
                 LOOP
 
+                v_stock:= tie.f_ver_stock(cast(record_detail.obj->>'id_producto' as integer));
+                IF v_stock < cast(record_detail.obj->>'cantidad_vendida' as integer) then
+                    RAISE EXCEPTION '%', 'ERROR TU PRODUCTO NO TIENE STOCK';
+                END IF;
+
+                    INSERT into tie.tmovimiento(
+                        id_usuario_reg,
+                        id_usuario_mod,
+                        fecha_reg,
+                        fecha_mod,
+                        estado_reg,
+                        id_usuario_ai,
+                        usuario_ai,
+                        obs_dba,
+                        id_producto,
+                        tipo,
+                        cantidad_movida
+                    ) VALUES (
+                                 p_id_usuario,
+                                 null,
+                                 now(),
+                                 null,
+                                 'activo',
+                                 null,
+                                 null,
+                                 null,
+                                 cast(record_detail.obj->>'id_producto' as integer),
+                                 'SALIDA',
+                                 cast(record_detail.obj->>'cantidad_vendida' as integer)
+                             );
 
                     v_importe_total:= v_importe_total + (cast(record_detail.obj->>'cantidad_vendida' as integer) * cast(record_detail.obj->>'precio_unitario' as numeric));
                     INSERT into tie.tventa_detalle (

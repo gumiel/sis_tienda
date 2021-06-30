@@ -9,8 +9,17 @@ header("content-type: text/javascript; charset=UTF-8");
                 this.maestro=config.maestro;
                 //llama al constructor de la clase padre
                 Phx.vista.ProductoBase.superclass.constructor.call(this,config);
+
+
                 this.init();
                 //this.load({params:{start:0, limit:this.tam_pag}})
+
+                this.addButton('archivo', {
+                    argument: {imprimir: 'archivo'},
+                    text: '<i class="fa fa-thumbs-o-up fa-2x"></i> archivo', /*iconCls:'' ,*/
+                    disabled: false,
+                    handler: this.archivo
+                });
 
                 this.addButton('btn_ver_stock', {
                     text: 'Ver Stock',
@@ -65,6 +74,7 @@ header("content-type: text/javascript; charset=UTF-8");
                     grid:true,
                     form:false
                 },
+
                 {
                     config:{
                         name: 'nombre',
@@ -138,6 +148,31 @@ header("content-type: text/javascript; charset=UTF-8");
                     id_grupo:0,
                     grid:false,
                     form:true
+                },
+
+                {
+                    config:{
+                        name: 'archivo',
+                        fieldLabel: 'archivo',
+                        allowBlank: true,
+                        anchor: '80%',
+                        gwidth: 100,
+                        maxLength:255,
+                        renderer: function (value, p, record, rowIndex, colIndex) {
+                            console.log('value',value)
+                            console.log('p',p)
+                            console.log('record',record)
+                            const {json: {desc_archivo_tiepro, folder, extension}} = record;
+
+                            const nombre_file = desc_archivo_tiepro ? `${folder}${desc_archivo_tiepro}.${extension}` : '../../../lib/imagenes/icono_awesome/awe_wrong.png';
+
+                            return `<img width="50" src="${nombre_file}"/>`;
+                        },
+                    },
+                    type:'TextField',
+                    filters:{pfiltro:'tp.nombre',type:'string'},
+                    id_grupo:1,
+                    grid:true,
                 },
                 {
                     config:{
@@ -297,6 +332,31 @@ header("content-type: text/javascript; charset=UTF-8");
                 this.getBoton('btn_ver_stock').enable();
                 return tb;
             },
+
+            archivo: function () {
+
+
+                var rec = this.getSelectedData();
+
+                //enviamos el id seleccionado para cual el archivo se deba subir
+                rec.datos_extras_id = rec.id_producto;
+                //enviamos el nombre de la tabla
+                rec.datos_extras_tabla = 'tie.tproducto';
+                //enviamos el codigo ya que una tabla puede tener varios archivos diferentes como ci,pasaporte,contrato,slider,fotos,etc
+                rec.datos_extras_codigo = 'TIEPRO';
+
+                //esto es cuando queremos darle una ruta personalizada
+                //rec.datos_extras_ruta_personalizada = './../../../uploaded_files/favioVideos/videos/';
+
+                Phx.CP.loadWindows('../../../sis_parametros/vista/archivo/Archivo.php',
+                    'Archivo',
+                    {
+                        width: 900,
+                        height: 400
+                    }, rec, this.idContenedor, 'Archivo');
+
+            },
+
         }
     )
 

@@ -155,20 +155,8 @@ BEGIN
 
         begin
 
-            SELECT sum(cantidad_movida) as sum_entrada
-            INTO v_sum_entrada
-            FROM tie.tmovimiento
-            WHERE tipo = 'ENTRADA'
-              AND id_producto = v_parametros.id_producto;
 
-
-            SELECT sum(cantidad_movida) as sum_salida
-            into v_sum_salida
-            FROM tie.tmovimiento
-            WHERE tipo = 'SALIDA'
-              AND id_producto = v_parametros.id_producto;
-
-            v_stock:= v_sum_entrada - v_sum_salida;
+            v_stock:= tie.f_ver_stock(v_parametros.id_producto);
 
 
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','modificado exitoso'||v_stock||')');

@@ -42,3 +42,11 @@ select pxp.f_insert_tgui ('<i class="fa fa-shopping-cart fa-2x"></i> TIENDA', ''
 select pxp.f_insert_tgui ('Dosificacion', 'Dosificacion', 'DOSI', 'si', 4, 'sis_tienda/vista/dosificacion/Dosificacion.php', 2, '', 'Dosificacion', 'TIE');
 
 /*******************************************F-DAT-ATB-DZ-1-26/06/2021***********************************************/
+
+
+/*******************************************I-DAT-FFP-TIE-1-29/06/2021***********************************************/
+
+INSERT INTO param.ttipo_archivo (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_usuario_ai, usuario_ai, obs_dba, nombre_id, tipo_archivo, tabla, codigo, nombre, multiple, extensiones_permitidas, ruta_guardar, tamano, orden, obligatorio) VALUES (1, null, '2021-06-29 23:04:27.485711', null, 'activo', null, 'NULL', null,  'id_producto', 'imagen', 'tie.tproducto', 'TIEPRO', 'TIEPRO', 'no', 'png,gif,bmp,jpeg,jpg', '', 1, null, null);
+INSERT INTO param.ttipo_archivo (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_usuario_ai, usuario_ai, obs_dba, nombre_id, tipo_archivo, tabla, codigo, nombre, multiple, extensiones_permitidas, ruta_guardar, tamano, orden, obligatorio) VALUES (1, null, '2021-06-29 23:13:29.836518', null, 'activo', null, 'NULL', null,  'id_producto', 'documento', 'tie.tproducto', 'CATALOGOPRO', 'CATALOGOPRO', 'no', 'doc,docx,pdf,jpg,jpeg,bmp,gif,png,PDF,DOC,DOCX,xls,xlsx,XLS,XLSX,rar', '', 5, null, null);
+
+/*******************************************F-DAT-FFP-TIE-1-29/06/2021***********************************************/

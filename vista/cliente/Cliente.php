@@ -44,9 +44,9 @@ header("content-type: text/javascript; charset=UTF-8");
                         name:'id_persona',
                         origen:'PERSONA',
                         tinit:true,
-                        fieldLabel:'persona',
+                        fieldLabel:'Cliente',
                         gdisplayField:'desc_person',//mapea al store del grid
-                        anchor: '100%',
+                        anchor: '80%',
                         gwidth:200,
                         renderer:function (value, p, record){return String.format('{0}', record.data['desc_person']);}
                     },
@@ -65,7 +65,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 {
                     config:{
                         name: 'nit',
-                        fieldLabel: 'nit',
+                        fieldLabel: 'Nit',
                         allowBlank: true,
                         anchor: '80%',
                         gwidth: 100,
@@ -81,7 +81,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 {
                     config:{
                         name: 'razon_social',
-                        fieldLabel: 'Razaon social',
+                        fieldLabel: 'Razón social',
                         allowBlank: true,
                         anchor: '80%',
                         gwidth: 100,
