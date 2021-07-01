@@ -5,18 +5,139 @@ header("content-type: text/javascript; charset=UTF-8");
 
     Phx.vista.Marca=Ext.extend(Phx.gridInterfaz,{
 
+        cmbIdMarca: new Ext.form.ComboBox({
+            name: 'id_marca',
+            msgTarget: 'title',
+            fieldLabel: 'Marca',
+            allowBlank: false,
+            emptyText: 'Elija una opción...',
+            store: new Ext.data.JsonStore({
+                url: '../../sis_tienda/control/Marca/listarMarca',
+                id: 'id_marca',
+                root: 'datos',
+                sortInfo: {
+                    field: 'nombre',
+                    direction: 'ASC'
+                },
+                totalProperty: 'total',
+                fields: ['id_marca', 'nombre'],
+                remoteSort: true,
+                baseParams: {par_filtro: 'tm.nombre'}
+            }),
+            valueField: 'id_marca',
+            displayField: 'nombre',
+            gdisplayField: 'nombre',
+            hiddenName: 'id_marca',
+            forceSelection: true,
+            typeAhead: false,
+            triggerAction: 'all',
+            lazyRender: true,
+            mode: 'remote',
+            pageSize: 15,
+            queryDelay: 1000,
+            anchor: '100%',
+            gwidth: 150,
+            minChars: 2,
+            renderer : function(value, p, record) {
+                return String.format('{0}', record.data['nombre']);
+            }
+        }),
+
+        cmbIdProducto: new Ext.form.ComboBox({
+        name: 'id_producto',
+        msgTarget: 'title',
+        fieldLabel: 'Producto',
+        allowBlank: false,
+        emptyText: 'Elija una opción...',
+        store: new Ext.data.JsonStore({
+            url: '../../sis_tienda/control/Producto/listarProducto',
+            id: 'id_producto',
+            root: 'datos',
+            sortInfo: {
+                field: 'nombre',
+                direction: 'ASC'
+            },
+            totalProperty: 'total',
+            fields: ['id_producto', 'nombre','precio'],
+            remoteSort: true,
+            baseParams: {par_filtro: 'tp.nombre'}
+        }),
+        valueField: 'id_producto',
+        displayField: 'nombre',
+        gdisplayField: 'nombre',
+        hiddenName: 'id_producto',
+        forceSelection: true,
+        typeAhead: false,
+        triggerAction: 'all',
+        lazyRender: true,
+        mode: 'remote',
+        pageSize: 15,
+        queryDelay: 1000,
+        anchor: '100%',
+        gwidth: 150,
+        minChars: 2,
+            disabled: true,
+        renderer : function(value, p, record) {
+            return String.format('{0}', record.data['nombre']);
+        }
+    }),
+
             constructor:function(config){
                 this.maestro=config.maestro;
                 //llama al constructor de la clase padre
                 Phx.vista.Marca.superclass.constructor.call(this,config);
+
+
+                this.popUpExampleCombos = new Ext.Window({
+                    layout: 'fit',
+                    width: 500,
+                    height: 250,
+                    modal: true,
+                    closeAction: 'hide',
+                    items: new Ext.FormPanel({
+                        labelWidth: 75, // label settings here cascade unless overridden
+                        frame: true,
+                        // title: 'Factura Manual Concepto',
+                        bodyStyle: 'padding:5px 5px 0',
+                        width: 339,
+                        defaults: {width: 191},
+                        // defaultType: 'textfield',
+
+                        items: [this.cmbIdMarca, this.cmbIdProducto],
+
+                        buttons: [{
+                            text: 'Save',
+                            handler: () => {
+                                alert('save')
+                            },
+
+                            scope: this
+                        }, {
+                            text: 'Cancel',
+                            handler: ()=>{this.popUpExampleCombos.hide()}
+                        }]
+                    })
+                })
+
+
                 this.init();
                 this.load({params:{start:0, limit:this.tam_pag}})
+                this.iniciarEventos();
 
                 this.addButton('open_producto', {
                     text: 'Productos',
                     iconCls: 'badelante',
                     disabled: true,
                     handler: this.productos,
+                    tooltip: '<b>este es un mensaje</b>'
+                })
+                this.addButton('btn_modal_ex1', {
+                    text: 'Ejemplo Combobox',
+                    iconCls: 'badelante',
+                    disabled: false,
+                    handler: ()=> {
+                        this.popUpExampleCombos.show();
+                    },
                     tooltip: '<b>este es un mensaje</b>'
                 })
             },
@@ -192,6 +313,17 @@ header("content-type: text/javascript; charset=UTF-8");
                 }
             ],
 
+        iniciarEventos: function () {
+
+            this.cmbIdMarca.on('select', function (rec, d) {
+                console.log('d',d)
+                this.cmbIdProducto.enable();
+                this.cmbIdProducto.reset();
+                this.cmbIdProducto.store.baseParams.id_marca = d.data.id_marca;
+                this.cmbIdProducto.modificado = true;
+            }, this);
+
+        },
             preparaMenu: function () {
                 //var data = this.getSelectedData();
                 this.getBoton('open_producto').enable();

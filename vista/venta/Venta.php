@@ -1,6 +1,7 @@
 <?php
 header("content-type: text/javascript; charset=UTF-8");
 ?>
+<script src="../../../sis_tienda/vista/venta/FacturaHtml.js"></script>
 <script>
 
     Phx.vista.Venta=Ext.extend(Phx.gridInterfaz,{
@@ -262,12 +263,21 @@ header("content-type: text/javascript; charset=UTF-8");
                     cls: 'VentaDetalle',
                 }
             ],
-            onSaveForm: function (form, objRes) {
+            onSaveForm: function (form, resp) {
                 var me = this;
                 form.panel.destroy();
                 me.reload();
 
-                console.log('objResobjResobjResobjRes', objRes)
+                var objRes = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
+                const jsonVenta = JSON.parse(objRes.ROOT.datos.v_id_venta);
+
+                const html = facturaHtml({data: jsonVenta});
+                const windowsImpresion = window.open("","_blank");
+                windowsImpresion.document.write(html);
+
+                console.log('objRes', objRes)
+                console.log('jsonVenta', jsonVenta)
+                console.log('html', html)
             },
             abrirFormulario: function () {
                 var me = this;

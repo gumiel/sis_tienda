@@ -19,6 +19,8 @@ DECLARE
     v_nit varchar;
     v_importe_total numeric(10,2) DEFAULT 0;
     v_stock integer;
+
+    v_json json;
 BEGIN
     v_nombre_funcion = 'tie.ft_venta_ime';
     v_parametros = pxp.f_get_record(p_tabla);
@@ -187,8 +189,44 @@ BEGIN
             WHERE id_dosificacion = v_dosificacion.id_dosificacion;
 
 
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','inserccion exitoso'||v_id_venta||')');
-            v_resp = pxp.f_agrega_clave(v_resp,'v_id_venta',v_id_venta::varchar);
+
+
+            WITH t_venta AS (
+                SELECT *
+                FROM tie.tventa
+                WHERE id_venta = v_id_venta limit 1
+            ), t_venta_detalle AS (
+                select *, tp.nombre as desc_producto
+                from tie.tventa_detalle tvd
+                         inner join t_venta tv on tv.id_venta = tvd.id_venta
+                         inner join tie.tproducto tp on tp.id_producto = tvd.id_producto
+            ), t_cliente AS (
+                select * from tie.tcliente tc
+                                  inner join t_venta tv on tv.id_cliente = tc.id_cliente
+            )
+            SELECT (
+                       (
+                           SELECT to_json(venta)
+                           FROM (
+                                    SELECT *,
+                                           (
+                                               SELECT array_to_json(ARRAY_AGG(row_to_json(venta_detalle)))
+                                               FROM (SELECT * FROM t_venta_detalle tv) AS venta_detalle
+                                           ) vd,
+                                           (
+                                               select to_json(cliente) FROM  (SELECT * from t_cliente) cliente
+                                           ) cli,
+                                           (select sum(precio_total) from t_venta_detalle) as precio_venta_total
+                                    FROM t_venta
+                                ) venta
+                       )
+                   ) AS datos into v_json;
+
+
+
+
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje',v_json::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'v_id_venta',v_json::varchar);
 
             --Devuelve la respuesta
             return v_resp;

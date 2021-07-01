@@ -501,7 +501,7 @@ header("content-type: text/javascript; charset=UTF-8");
         successSave: function (resp) {
             Phx.CP.loadingHide();
             var objRes = '';
-            this.fireEvent('successSave', this, objRes)
+            this.fireEvent('successSave', this, resp)
         }
 
     });
