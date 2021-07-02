@@ -11,6 +11,13 @@ header("content-type: text/javascript; charset=UTF-8");
                 Phx.vista.Categoria.superclass.constructor.call(this,config);
                 this.init();
                 this.load({params:{start:0, limit:this.tam_pag}})
+
+                this.addButton('archivo', {
+                    argument: {imprimir: 'archivo'},
+                    text: '<i class="fa fa-thumbs-o-up fa-2x"></i> archivo', /*iconCls:'' ,*/
+                    disabled: false,
+                    handler: this.archivo
+                })
             },
 
             Atributos:[
@@ -71,6 +78,30 @@ header("content-type: text/javascript; charset=UTF-8");
                     grid:true,
                     form:true,
                     bottom_filter: true,
+                },
+                {
+                    config:{
+                        name: 'archivo',
+                        fieldLabel: 'archivo',
+                        allowBlank: true,
+                        anchor: '80%',
+                        gwidth: 100,
+                        maxLength:255,
+                        renderer: function (value, p, record, rowIndex, colIndex) {
+                            console.log('value',value)
+                            console.log('p',p)
+                            console.log('record',record)
+                            const {json: {desc_archivo_tiecat, folder, extension}} = record;
+
+                            const nombre_file = desc_archivo_tiecat ? `${folder}${desc_archivo_tiecat}.${extension}` : '../../../lib/imagenes/icono_awesome/awe_wrong.png';
+
+                            return `<img width="50" src="${nombre_file}"/>`;
+                        },
+                    },
+                    type:'TextField',
+                    filters:{pfiltro:'tp.nombre',type:'string'},
+                    id_grupo:1,
+                    grid:true,
                 },
                 {
                     config:{
@@ -192,6 +223,30 @@ header("content-type: text/javascript; charset=UTF-8");
             },
             bdel:true,
             bsave:true,
+
+        archivo: function () {
+
+
+            var rec = this.getSelectedData();
+
+            //enviamos el id seleccionado para cual el archivo se deba subir
+            rec.datos_extras_id = rec.id_categoria;
+            //enviamos el nombre de la tabla
+            rec.datos_extras_tabla = 'tie.tcategoria';
+            //enviamos el codigo ya que una tabla puede tener varios archivos diferentes como ci,pasaporte,contrato,slider,fotos,etc
+            rec.datos_extras_codigo = 'ICOCAT';
+
+            //esto es cuando queremos darle una ruta personalizada
+            //rec.datos_extras_ruta_personalizada = './../../../uploaded_files/favioVideos/videos/';
+
+            Phx.CP.loadWindows('../../../sis_parametros/vista/archivo/Archivo.php',
+                'Archivo',
+                {
+                    width: 900,
+                    height: 400
+                }, rec, this.idContenedor, 'Archivo');
+
+        },
         }
     )
 

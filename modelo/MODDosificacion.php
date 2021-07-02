@@ -28,7 +28,7 @@ class MODDosificacion extends MODbase
         $this->captura('fecha_ini','date');
         $this->captura('fecha_fin','date');
         $this->captura('nro_aut','varchar');
-        $this->captura('nro_inicio','varchar');
+        $this->captura('nro_inicio','integer');
         $this->captura('id_usuario_reg','int4');
         $this->captura('fecha_reg','timestamp');
         $this->captura('usuario_ai','varchar');
@@ -56,7 +56,7 @@ class MODDosificacion extends MODbase
         $this->setParametro('fecha_ini','fecha_ini','date');
         $this->setParametro('fecha_fin','fecha_fin','date');
         $this->setParametro('nro_aut','nro_aut','varchar');
-        $this->setParametro('nro_inicio','nro_inicio','varchar');
+        $this->setParametro('nro_inicio','nro_inicio','integer');
 
 
         //Ejecuta la instruccion
@@ -77,7 +77,7 @@ class MODDosificacion extends MODbase
         $this->setParametro('fecha_ini','fecha_ini','date');
         $this->setParametro('fecha_fin','fecha_fin','date');
         $this->setParametro('nro_aut','nro_aut','varchar');
-        $this->setParametro('nro_inicio','nro_inicio','varchar');
+        $this->setParametro('nro_inicio','nro_inicio','integer');
 
         //Ejecuta la instruccion
         $this->armarConsulta();

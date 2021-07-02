@@ -101,7 +101,7 @@ header("content-type: text/javascript; charset=UTF-8");
                         maxLength:255
                     },
                     type:'TextField',
-                    filters:{pfiltro:'td.nro_inicio',type:'string'},
+                    filters:{pfiltro:'td.nro_inicio',type:'numeric'},
                     id_grupo:1,
                     grid:true,
                     form:true,
@@ -213,7 +213,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 {name:'fecha_ini', type: 'date',dateFormat:'Y-m-d'},
                 {name:'fecha_fin', type: 'date',dateFormat:'Y-m-d'},
                 {name:'nro_aut', type: 'string'},
-                {name:'nro_inicio', type: 'string'},
+                {name:'nro_inicio', type: 'numeric'},
                 {name:'id_usuario_reg', type: 'numeric'},
                 {name:'fecha_reg', type: 'date',dateFormat:'Y-m-d H:i:s.u'},
                 {name:'id_usuario_ai', type: 'numeric'},
