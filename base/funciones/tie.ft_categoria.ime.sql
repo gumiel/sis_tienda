@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION "tie"."ft_categoria.ime"(
+CREATE OR REPLACE FUNCTION "tie"."ft_categoria_ime"(
     p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
     RETURNS character varying AS
 $BODY$
