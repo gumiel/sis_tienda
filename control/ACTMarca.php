@@ -13,6 +13,7 @@ class ACTMarca extends ACTbase
             $this->objFunc = $this->create('MODMarca');
             $this->res = $this->objFunc->listarMarca($this->objParam);
 
+
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
 
@@ -30,6 +31,11 @@ class ACTMarca extends ACTbase
     function eliminarMarca() {
         $this->objFunc=$this->create('MODMarca');
         $this->res=$this->objFunc->eliminarMarca($this->objParam);
+        $this->res->imprimirRespuesta($this->res->generarJson());
+    }
+    function marcaJson() {
+        $this->objFunc=$this->create('MODMarca');
+        $this->res=$this->objFunc->marcaJson($this->objParam);
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
 }

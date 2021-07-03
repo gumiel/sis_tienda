@@ -90,6 +90,21 @@ class MODMarca extends MODbase
         return $this->respuesta;
 
     }
+    function marcaJson() {
+        $this->procedimiento='tie.ft_marca_ime';
+        $this->transaccion='TIE_MARCA_JSON';
+        $this->tipo_procedimiento='IME';
+
+        $this->setParametro('id_marca','id_marca','int4');
+
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+
+        //Devuelve la respuesta
+        return $this->respuesta;
+
+    }
 
 
 

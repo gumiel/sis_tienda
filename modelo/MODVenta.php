@@ -39,6 +39,7 @@ class MODVenta extends MODbase
         $this->captura('fecha_mod','timestamp');
         $this->captura('usr_reg','varchar');
         $this->captura('usr_mod','varchar');
+        $this->captura('id_dosificacion','int4');
 
         //Ejecuta la instruccion
         $this->armarConsulta();
@@ -62,6 +63,23 @@ class MODVenta extends MODbase
         $this->setParametro('nro_venta','nro_venta','varchar');
         $this->setParametro('total','total','numeric');
         $this->setParametro('details','details','text');
+
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+
+        //Devuelve la respuesta
+        return $this->respuesta;
+
+    }
+    function generarventaJson() {
+
+        $this->procedimiento='tie.ft_venta_ime';
+        $this->transaccion='TIE_GETVEN_JSON';
+        $this->tipo_procedimiento='IME';
+
+        $this->setParametro('id_venta','id_venta','int4');
+
 
         //Ejecuta la instruccion
         $this->armarConsulta();
