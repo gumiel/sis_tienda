@@ -102,6 +102,30 @@ BEGIN
 
         end;
 
+
+    /*********************************
+     #TRANSACCION:  'TIE_MARCA_JSON'
+     #DESCRIPCION:    PRUEBA DE JSON
+     #AUTOR:        favio figueroa
+     #FECHA:        17-04-2020 01:52:57
+    ***********************************/
+
+    elsif(p_transaccion='TIE_MARCA_JSON')then
+
+        begin
+
+
+
+
+
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','modificado exitoso'||v_parametros.id_marca||')');
+            v_resp = pxp.f_agrega_clave(v_resp,'v_id_marca',v_parametros.id_marca::varchar);
+
+            --Devuelve la respuesta
+            return v_resp;
+
+        end;
+
     else
 
         raise exception 'Transaccion inexistente: %',p_transaccion;

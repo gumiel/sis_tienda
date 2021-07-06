@@ -112,3 +112,8 @@ alter table tie.tdosificacion alter column nro_inicio type integer using nro_ini
 
 
 /***********************************F-SCP-FFP-TIE-1-28/06/2021*****************************************/
+
+/***********************************I-SCP-FFP-TIE-1-02/07/2021****************************************/
+alter table tie.tventa
+    add id_dosificacion integer;
+/***********************************F-SCP-FFP-TIE-1-02/07/2021*****************************************/

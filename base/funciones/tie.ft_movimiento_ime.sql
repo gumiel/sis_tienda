@@ -55,6 +55,7 @@ BEGIN
 
 
 
+
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','inserccion exitoso'||v_id_movimiento||')');
             v_resp = pxp.f_agrega_clave(v_resp,'v_id_categoria',v_id_movimiento::varchar);
 

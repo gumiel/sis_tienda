@@ -1,5 +1,7 @@
 <?php
 
+require_once(dirname(__FILE__).'/../reporte/RReporteVenta.php');
+
 class ACTVenta extends ACTbase
 {
     function listarVenta() {
@@ -33,5 +35,101 @@ class ACTVenta extends ACTbase
         $this->res=$this->objFunc->eliminarVenta($this->objParam);
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
+
+    function generarVenta() {
+
+        //p: {"start":"0","limit":"50","sort":"id_venta","dir":"ASC","contenedor":"docs-VT"}
+
+        $this->objParam->addFiltro("tv.id_venta= ".$this->objParam->getParametro('id_venta'));
+        $this->objFunc=$this->create('MODVenta');
+        $this->res=$this->objFunc->listarVenta($this->objParam);
+
+        if($this->res->getTipo() != 'EXITO'){
+            $this->res->imprimirRespuesta($this->res->generarJson());
+            exit;
+        }
+
+        $dataVenta = $this->res->getDatos();
+
+
+        //obtener venta detalle
+
+        $this->objParam->parametros_consulta['filtro'] = ' 0 = 0 ';
+        $this->objParam->addFiltro("tvd.id_venta = ".$dataVenta[0]['id_venta']." ");
+        $this->objFunc = $this->create('MODVentaDetalle');
+        $this->res = $this->objFunc->listarVentaDetalle($this->objParam);
+
+        if($this->res->getTipo() != 'EXITO'){
+            $this->res->imprimirRespuesta($this->res->generarJson());
+            exit;
+        }
+        $dataVentaDetalle = $this->res->getDatos();
+
+
+        //obtener dosificacion
+
+        $this->objParam->defecto('dir_ordenacion', 'ASC');
+        $this->objParam->parametros_consulta['ordenacion'] = 'id_dosificacion';
+
+
+        $this->objParam->parametros_consulta['filtro'] = ' 0 = 0 ';
+        $this->objParam->addFiltro("td.id_dosificacion = ".$dataVenta[0]['id_dosificacion']." ");
+
+
+        $this->objFunc = $this->create('MODDosificacion');
+        $this->res = $this->objFunc->listarDosificacion($this->objParam);
+
+        if($this->res->getTipo() != 'EXITO'){
+            $this->res->imprimirRespuesta($this->res->generarJson());
+            exit;
+        }
+        $dataDosificacion = $this->res->getDatos();
+
+
+
+        //$arrRes = array("venta" => $dataVenta, "venta_detalle" => $dataVentaDetalle, "dosificacion" => $dataDosificacion);
+
+
+        $nombre_archivo = $dataVenta[0]['nro_fac'].'_'.$dataVenta[0]['id_venta'].'.pdf';
+        $this->objParam->addParametro('nombre_archivo', $nombre_archivo);
+
+        $this->objReporteVenta = new RReporteVenta($this->objParam);
+
+        $this->objReporteVenta->factura($dataVenta, $dataVentaDetalle, $dataDosificacion);
+
+        $temp['pdfs'] = $nombre_archivo;
+        $this->res->setDatos($temp);
+        $this->res->imprimirRespuesta($this->res->generarJson());
+
+
+    }
+
+
+    function generarVentaJson() {
+        $this->objFunc=$this->create('MODVenta');
+        $this->res=$this->objFunc->generarventaJson($this->objParam);
+        if($this->res->getTipo() != 'EXITO'){
+            $this->res->imprimirRespuesta($this->res->generarJson());
+            exit;
+        }
+        $data = $this->res->getDatos();
+        $dataJson = json_decode($data["json"]);
+
+        $nombre_archivo = $dataJson->nro_fac.'_'.$dataJson->id_venta.'.pdf';
+        $this->objParam->addParametro('nombre_archivo', $nombre_archivo);
+
+        $this->objReporteVenta = new RReporteVenta($this->objParam);
+
+        $this->objReporteVenta->facturaJson($dataJson);
+
+        $temp['pdfs'] = $nombre_archivo;
+        $data["json"] = $nombre_archivo;
+
+        $this->res->setDatos($temp);
+        $this->res->imprimirRespuesta($this->res->generarJson());
+
+
+    }
+    
 }
 ?>

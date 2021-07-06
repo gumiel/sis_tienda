@@ -21,6 +21,7 @@ DECLARE
     v_stock integer;
 
     v_json json;
+    v_venta_json json;
 BEGIN
     v_nombre_funcion = 'tie.ft_venta_ime';
     v_parametros = pxp.f_get_record(p_tabla);
@@ -29,7 +30,7 @@ BEGIN
      #TRANSACCION:  'TIE_VENTA_INS'
      #DESCRIPCION:    Insercion de registros
      #AUTOR:        admin
-     #FECHA:        17-04-2020 01:52:57
+     #FECHA:        17-04-2020 01:52:57`
     ***********************************/
 
     if(p_transaccion='TIE_VENTA_INS')then
@@ -78,7 +79,8 @@ BEGIN
                 fecha,
                 nro_fac,
                 nro_venta,
-                total
+                total,
+                                   id_dosificacion
             ) VALUES (
                          p_id_usuario,
                          null,
@@ -93,7 +95,8 @@ BEGIN
                          v_parametros.fecha,
                          v_nro_fac,
                          v_parametros.nro_venta,
-                         null
+                         null,
+                         v_dosificacion.id_dosificacion
                      ) RETURNING id_venta into v_id_venta;
 
 
@@ -233,50 +236,25 @@ BEGIN
 
         end;
 
-        /*********************************
-         #TRANSACCION:  'TIE_categoria_ELI'
-         #DESCRIPCION:    eliminar categoria
-         #AUTOR:        admin
-         #FECHA:        17-04-2020 01:52:57
-        ***********************************/
 
-    elsif(p_transaccion='TIE_CATEGORIA_ELI')then
-
-        begin
-            DELETE from tie.tcategoria
-            where id_categoria = v_parametros.id_categoria;
-
-
-
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','eliminado exitoso'||v_parametros.id_categoria||')');
-            v_resp = pxp.f_agrega_clave(v_resp,'v_id_categoria',v_parametros.id_categoria::varchar);
-
-            --Devuelve la respuesta
-            return v_resp;
-
-        end;
 
         /*********************************
-         #TRANSACCION:  'TIE_categoria_MOD'
-         #DESCRIPCION:    ELIMINAR categoria
+         #TRANSACCION:  'TIE_GETVEN_JSON'
+         #DESCRIPCION:    Generar venta json
          #AUTOR:        favio figueroa
          #FECHA:        17-04-2020 01:52:57
         ***********************************/
 
-    elsif(p_transaccion='TIE_CATEGORIA_MOD')then
+    elsif(p_transaccion='TIE_GETVEN_JSON')then
 
         begin
 
 
-            UPDATE tie.tcategoria SET nombre = v_parametros.nombre,
-                                      fecha_mod = now(),
-                                      id_usuario_mod = p_id_usuario,
-                                      color = v_parametros.color
-            where id_categoria = v_parametros.id_categoria;
+           v_venta_json := tie.f_get_venta(v_parametros.id_venta);
 
 
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','modificado exitoso'||v_parametros.id_categoria||')');
-            v_resp = pxp.f_agrega_clave(v_resp,'v_id_categoria',v_parametros.id_categoria::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje',v_venta_json::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'json',v_venta_json::varchar);
 
             --Devuelve la respuesta
             return v_resp;

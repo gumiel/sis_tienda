@@ -28,7 +28,7 @@ class MODDosificacion extends MODbase
         $this->captura('fecha_ini','date');
         $this->captura('fecha_fin','date');
         $this->captura('nro_aut','varchar');
-        $this->captura('nro_inicio','integer');
+        $this->captura('nro_inicio','int4');
         $this->captura('id_usuario_reg','int4');
         $this->captura('fecha_reg','timestamp');
         $this->captura('usuario_ai','varchar');

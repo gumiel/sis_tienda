@@ -11,7 +11,21 @@ header("content-type: text/javascript; charset=UTF-8");
                 //llama al constructor de la clase padre
                 Phx.vista.Venta.superclass.constructor.call(this,config);
 
-               
+
+
+                this.addButton('btn_generar_venta', {
+                    argument: {imprimir: 'btn_generar_venta'},
+                    text: '<i class="fa fa-thumbs-o-up fa-2x"></i> generar venta', /*iconCls:'' ,*/
+                    disabled: false,
+                    handler: this.generarVenta
+                });
+                this.addButton('btn_generar_venta_json', {
+                    argument: {imprimir: 'btn_generar_venta_json'},
+                    text: '<i class="fa fa-thumbs-o-up fa-2x"></i> generar venta json', /*iconCls:'' ,*/
+                    disabled: false,
+                    handler: this.generarVentaJson
+                });
+
 
                 this.init();
                 this.load({params:{start:0, limit:this.tam_pag}})
@@ -224,7 +238,7 @@ header("content-type: text/javascript; charset=UTF-8");
             tam_pag:50,
             title:'Venta',
             ActSave:'../../sis_tienda/control/Venta/insertarVenta',
-            //ActDel:'../../sis_tienda/control/Venta/eliminarVenta',
+
             ActList:'../../sis_tienda/control/Venta/listarVenta',
             id_store:'id_venta',
             fields: [
@@ -278,6 +292,9 @@ header("content-type: text/javascript; charset=UTF-8");
                 console.log('objRes', objRes)
                 console.log('jsonVenta', jsonVenta)
                 console.log('html', html)
+
+
+
             },
             abrirFormulario: function () {
                 var me = this;
@@ -304,29 +321,54 @@ header("content-type: text/javascript; charset=UTF-8");
                 );
 
 
-                /*Phx.CP.loadWindows('../../../sis_devoluciones/vista/liquidacion/FormGenerarNota.php',
-                    'Item',
-                    {
-                        width:900,
-                        height:400
-                    },rec.json,this.idContenedor,'FormGenerarNota',
-                    {
-                        config: [{
-                            event: 'successsave',
-                            delegate: this.onSavedGenerarNota,
-                        }],
-                        scope: this
-                    }
-                )*/
-
-
-
-
 
             },
             onButtonNew: function () {
                 this.abrirFormulario();
             },
+
+
+        generarVenta: function () {
+            /// peticion ejemplo data construido desde control
+
+            var rec = this.sm.getSelected();
+            const { id_venta } = rec.data;
+
+            Phx.CP.loadingShow(); //ESTE MUESTRA EL LOADING EN LA VISTA
+            Ext.Ajax.request({
+                url: '../../sis_tienda/control/Venta/generarVenta',
+                params: { id_venta: id_venta, start:0,limit:50,sort:"id_venta" },
+                success: this.successGenerarVenta,
+                failure: this.conexionFailure, // ESTE ES UN EVENTO DE LA CLASE  BASE
+                timeout: this.timeout,
+                scope: this
+            });
+        },
+        generarVentaJson: function () {
+            /// peticion ejemplo data construido desde control
+
+            var rec = this.sm.getSelected();
+            const { id_venta } = rec.data;
+
+            Phx.CP.loadingShow(); //ESTE MUESTRA EL LOADING EN LA VISTA
+            Ext.Ajax.request({
+                url: '../../sis_tienda/control/Venta/generarVentaJson',
+                params: { id_venta: id_venta },
+                success: this.successGenerarVenta,
+                failure: this.conexionFailure, // ESTE ES UN EVENTO DE LA CLASE  BASE
+                timeout: this.timeout,
+                scope: this
+            });
+        },
+        successGenerarVenta: function (resp) {
+            Phx.CP.loadingHide();
+            const objRes = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
+            const pdf = objRes.ROOT.datos.pdfs;
+            window.open(`../../../lib/lib_control/Intermediario.php?r=${pdf}&t=${new Date().toLocaleTimeString()}`)
+
+            console.log('objRes',objRes)
+            console.log('pdf',pdf)
+        },
 
 
 
