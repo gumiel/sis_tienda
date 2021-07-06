@@ -238,7 +238,7 @@ header("content-type: text/javascript; charset=UTF-8");
             tam_pag:50,
             title:'Venta',
             ActSave:'../../sis_tienda/control/Venta/insertarVenta',
-            //ActDel:'../../sis_tienda/control/Venta/eliminarVenta',
+
             ActList:'../../sis_tienda/control/Venta/listarVenta',
             id_store:'id_venta',
             fields: [
@@ -319,24 +319,6 @@ header("content-type: text/javascript; charset=UTF-8");
                         scope: this
                     }
                 );
-
-
-                /*Phx.CP.loadWindows('../../../sis_devoluciones/vista/liquidacion/FormGenerarNota.php',
-                    'Item',
-                    {
-                        width:900,
-                        height:400
-                    },rec.json,this.idContenedor,'FormGenerarNota',
-                    {
-                        config: [{
-                            event: 'successsave',
-                            delegate: this.onSavedGenerarNota,
-                        }],
-                        scope: this
-                    }
-                )*/
-
-
 
 
 
