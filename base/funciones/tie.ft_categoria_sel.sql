@@ -12,7 +12,7 @@ DECLARE
     v_nombre_funcion       text;
     v_resp                varchar;
 BEGIN
-    v_nombre_funcion = 'decr.ft_liquidacion_sel';
+    v_nombre_funcion = 'tie.ft_categoria_sel';
     v_parametros = pxp.f_get_record(p_tabla);
     if(p_transaccion='TIE_CATEGORIA_SEL')then
         begin

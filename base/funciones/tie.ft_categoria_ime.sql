@@ -11,7 +11,7 @@ v_consulta            varchar;
     v_id_categoria              integer;
     v_categoria              record;
 BEGIN
-    v_nombre_funcion = 'tie.ft_categoria.ime';
+    v_nombre_funcion = 'tie.ft_categoria_ime';
     v_parametros = pxp.f_get_record(p_tabla);
 
     /*********************************    
@@ -127,4 +127,4 @@ END;
 $BODY$
 LANGUAGE 'plpgsql' VOLATILE
                        COST 100;
-ALTER FUNCTION "tie"."ft_categoria.ime"(integer, integer, character varying, character varying) OWNER TO postgres;
+ALTER FUNCTION "tie"."ft_categoria_ime"(integer, integer, character varying, character varying) OWNER TO postgres;

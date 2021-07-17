@@ -117,3 +117,49 @@ alter table tie.tdosificacion alter column nro_inicio type integer using nro_ini
 alter table tie.tventa
     add id_dosificacion integer;
 /***********************************F-SCP-FFP-TIE-1-02/07/2021*****************************************/
+
+/***********************************I-SCP-HPG-TIE-2-20/07/2021****************************************/
+alter table
+    tie.tmovimiento
+add
+    id_proceso_wf integer;
+
+alter table
+    tie.tmovimiento
+add
+    id_estado_wf integer;
+
+alter table
+    tie.tmovimiento
+add
+    estado VARCHAR;
+
+alter table
+    tie.tmovimiento
+add
+    nro_tramite VARCHAR;
+
+/***********************************F-SCP-HPG-TIE-2-20/07/2021*****************************************/
+
+/***********************************I-SCP-HPG-TIE-3-20/07/2021****************************************/
+alter table
+    tie.tventa
+add
+    id_proceso_wf integer;
+
+alter table
+    tie.tventa
+add
+    id_estado_wf integer;
+
+alter table
+    tie.tventa
+add
+    estado VARCHAR;
+
+alter table
+    tie.tventa
+add
+    nro_tramite VARCHAR;
+
+/***********************************F-SCP-HPG-TIE-3-20/07/2021*****************************************/
