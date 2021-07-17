@@ -9,6 +9,7 @@ DECLARE
     v_nombre_funcion       text;
     v_resp                varchar;
     v_id_venta             integer;
+   v_id_gestion             integer;
     v_venta               record;
     v_details_json          json;
     record_detail          record;
@@ -22,6 +23,10 @@ DECLARE
 
     v_json json;
     v_venta_json json;
+   v_num_tramite	varchar;
+    v_id_proceso_wf	integer;
+    v_id_estado_wf	integer;
+     v_codigo_estado	varchar;
 BEGIN
     v_nombre_funcion = 'tie.ft_venta_ime';
     v_parametros = pxp.f_get_record(p_tabla);
@@ -61,8 +66,32 @@ BEGIN
 
             --CREATE FUNCTION f_gen_cod_control(llave_dosificacion character varying, autorizacion character varying, nro_factura character varying, nit character varying, fecha_emision character varying, monto_facturado numeric) RETURNS text
 
+			select id_gestion into v_id_gestion
+			from param.tgestion g
+			where g.gestion = to_char(now(), 'YYYY')::integer;
+		
+			SELECT
+             ps_num_tramite ,
+             ps_id_proceso_wf ,
+             ps_id_estado_wf ,
+             ps_codigo_estado
+          into
+             v_num_tramite,
+             v_id_proceso_wf,
+             v_id_estado_wf,
+             v_codigo_estado
 
-
+        FROM wf.f_inicia_tramite(
+             p_id_usuario,
+             v_parametros._id_usuario_ai,
+             v_parametros._nombre_usuario_ai,
+             v_id_gestion,
+             'VEN',
+             NULL,
+             NULL,
+             'Venta '||v_parametros.nro_venta,
+             v_parametros.nro_venta
+             );
 
 
             INSERT into tie.tventa(
@@ -80,7 +109,11 @@ BEGIN
                 nro_fac,
                 nro_venta,
                 total,
-                                   id_dosificacion
+                                   id_dosificacion,
+                nro_tramite,
+                id_proceso_wf,
+                id_estado_wf,
+                estado
             ) VALUES (
                          p_id_usuario,
                          null,
@@ -96,7 +129,11 @@ BEGIN
                          v_nro_fac,
                          v_parametros.nro_venta,
                          null,
-                         v_dosificacion.id_dosificacion
+                         v_dosificacion.id_dosificacion,
+                         v_num_tramite,
+			             v_id_proceso_wf,
+			             v_id_estado_wf,
+			             v_codigo_estado
                      ) RETURNING id_venta into v_id_venta;
 
 
